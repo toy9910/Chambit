@@ -14,20 +14,17 @@ test_db = pymysql.connect(
 )
 
 cursor = test_db.cursor(pymysql.cursors.DictCursor)
-#sql = "create table image_upload_test(id INT AUTO_INCREMENT PRIMARY KEY, image_data BLOB, date VARCHAR(50), time VARCHAR(50));"
-#cursor.execute(sql)
-#result = cursor.fetchall()
-#print(result)
 
-sql2 = "select image_data from image_upload_test"
 
-cursor.execute(sql2)
-images = cursor.fetchone()
+#sql2 = "select image_data from image_upload_test"
 
-if images:
-    get_image = images.open(BytesIO(image['image_data']))
-    get_image = images['image']
-    get_image.show()
-    
+#cursor.execute(sql2)
+#images = cursor.fetchone()
+
+#if images:
+    #get_image = images.open(BytesIO(image['image_data']))
+    #get_image = images['image']
+    #get_image.show()
+
 test_db.commit()
 test_db.close()
