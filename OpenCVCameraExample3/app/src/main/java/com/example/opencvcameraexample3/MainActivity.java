@@ -91,7 +91,9 @@ public class MainActivity extends AppCompatActivity {
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(MainActivity.this).setTitle("선택").setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+                // 차량 선택 다이얼로그 생성
+                new AlertDialog.Builder(MainActivity.this).setTitle("선택")
+                        .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d(TAG, "onClick: "+items[which]);
@@ -150,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     boolean checkFile(File dir)
