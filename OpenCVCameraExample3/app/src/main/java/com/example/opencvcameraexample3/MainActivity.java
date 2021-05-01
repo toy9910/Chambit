@@ -19,6 +19,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,17 +56,23 @@ import static android.Manifest.permission.CAMERA;
 public class MainActivity extends AppCompatActivity {
     String TAG = "chambit";
     String IP_ADDRESS = "3.35.105.27";
+    final String[] items = new String[]{"내부 차량","외부 차량"};
 
     ImageView roi_img;
     Bitmap image;
-    TextView tes_result;
+    EditText tes_result;
+    EditText name;
+    EditText phone;
+    EditText dong;
+    EditText ho;
 
     static TessBaseAPI sTess;
     String lang;
     String datapath;
 
-    Button btn_register_vis;
-    Button btn_register_res;
+    Button btn_car_list;
+    Button btn_register;
+    int selected = -1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,38 +80,78 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         tes_result = findViewById(R.id.tess_result);
-        btn_register_vis = findViewById(R.id.btn_register_vis);
-        btn_register_res = findViewById(R.id.btn_register_res);
-
-        // 방문자 차량 등록 버튼
-        btn_register_vis.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(tes_result.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    InsertData insertData = new InsertData();
-                    insertData.execute("http://" + IP_ADDRESS + "/chambit_vis_insert.php");
-                    Toast.makeText(getApplicationContext(), "방문자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+        name = findViewById(R.id.et_name);
+        phone = findViewById(R.id.et_phone);
+        dong =  findViewById(R.id.et_dong);
+        ho = findViewById(R.id.et_ho);
+        btn_car_list = findViewById(R.id.btn_car_list);
+        btn_register = findViewById(R.id.btn_register);
 
         // 입주자 차량 등록 버튼
-        btn_register_res.setOnClickListener(new View.OnClickListener() {
+        btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tes_result.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    InsertData insertData = new InsertData();
-                    insertData.execute("http://" + IP_ADDRESS + "/chambit_res_insert.php");
-                    Toast.makeText(getApplicationContext(), "입주자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
-                }
+                new AlertDialog.Builder(MainActivity.this).setTitle("선택").setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.d(TAG, "onClick: "+items[which]);
+                        selected = which;
+                        Toast.makeText(getApplicationContext(),items[which],Toast.LENGTH_SHORT).show();
+                    }
+                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (selected) {
+                            case 0: { // 내부차량 등록
+                                if(tes_result.getText().toString().equals("")) {
+                                    Log.d(TAG, "onClick: 내부차량 번호를 입력하세요!!!!!");
+                                    Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    InsertData insertData = new InsertData();
+                                    insertData.execute("http://" + IP_ADDRESS + "/chambit_res_insert.php");
+                                    Toast.makeText(getApplicationContext(), "입주자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
+                                    tes_result.setText("");
+                                    name.setText("");
+                                    phone.setText("");
+                                    dong.setText("");
+                                    ho.setText("");
+                                }
+                                break;
+                            }
+                            case 1: { // 외부차량 등록
+                                if(tes_result.getText().toString().equals("")) {
+                                    Log.d(TAG, "onClick: 외부차량 번호를 입력하세요!!!!!");
+                                    Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_LONG).show();
+                                }
+                                else {
+                                    InsertData insertData = new InsertData();
+                                    insertData.execute("http://" + IP_ADDRESS + "/chambit_vis_insert.php");
+                                    Toast.makeText(getApplicationContext(), "방문자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
+                                    tes_result.setText("");
+                                    name.setText("");
+                                    phone.setText("");
+                                    dong.setText("");
+                                    ho.setText("");
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }).show();
             }
         });
+
+        // 차량 조회 버튼
+        btn_car_list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CarListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     boolean checkFile(File dir)
@@ -164,15 +211,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            String vis_name = "홍길순";
-            String vis_car_no = tes_result.getText().toString();
-            String vis_phone = "010-0000-1111";
-            String vis_dong = "6";
-            String vis_ho = "1002";
+            String str_car_no = tes_result.getText().toString();
+            String str_name = name.getText().toString();
+            String str_phone = phone.getText().toString();
+            String str_dong = dong.getText().toString() + "동";
+            String str_ho = ho.getText().toString() + "호";
 
             String serverURL = strings[0];
-            String postParameters = "vis_car_no=" + vis_car_no + "&vis_name=" + vis_name + "&vis_phone=" + vis_phone
-                    + "&vis_dong=" + vis_dong + "&vis_ho=" + vis_ho;
+            String postParameters = "car_no=" + str_car_no + "&name=" + str_name + "&phone=" + str_phone
+                    + "&dong=" + str_dong + "&ho=" + str_ho;
 
             try {
                 URL url = new URL(serverURL);
@@ -230,7 +277,6 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute(String result) {
             //완료 후 버튼 속성 변경 및 결과 출력
-            tes_result = (TextView)findViewById(R.id.tess_result);
             Log.d(TAG, "onPostExecute: "+result);
             String result2 = result;
             tes_result.setText(result2);
