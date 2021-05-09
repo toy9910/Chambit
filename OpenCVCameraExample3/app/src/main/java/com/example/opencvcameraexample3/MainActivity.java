@@ -38,6 +38,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     static TessBaseAPI sTess;
     String lang;
     String datapath;
+    byte[] roi_data;
+    DataOutputStream dos;
 
     Button btn_car_list;
     Button btn_register;
@@ -290,6 +293,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent,0);
                 break;
             }
+            case R.id.btn_car_search: {
+                Log.d(TAG, "onClick: clicked");
+                doFileUpload();
+                break;
+            }
         }
     }
 
@@ -310,12 +318,56 @@ public class MainActivity extends AppCompatActivity {
 
                 roi_img = (ImageView)findViewById(R.id.roi_photo);
 
-                byte[] arr = data.getByteArrayExtra("roi");
-                image = BitmapFactory.decodeByteArray(arr,0,arr.length);
+                roi_data = data.getByteArrayExtra("roi");
+                image = BitmapFactory.decodeByteArray(roi_data,0,roi_data.length);
                 roi_img.setImageBitmap(image);
 
                 new AsyncTess().execute(image);
             }
         }
+    }
+
+
+    public void doFileUpload() {
+        try {
+            URL url = new URL("http://" + IP_ADDRESS + ":8080/photo");
+
+            String lineEnd = "\r\n";
+            String twoHyphens = "--";
+            String boundary = "*****";
+
+            // open connection
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setDoInput(true); //input 허용
+            con.setDoOutput(true);  // output 허용
+            con.setUseCaches(false);   // cache copy를 허용하지 않는다.
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Connection", "Keep-Alive");
+            con.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+            // write data
+            DataOutputStream dos =
+                    new DataOutputStream(con.getOutputStream());
+            Log.i(TAG, "Open OutputStream" );
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+
+            // 파일 전송시 파라메터명은 file1 파일명은 camera.jpg로 설정하여 전송
+            dos.writeBytes("Content-Disposition: form-data; name=\"file1\";filename=\"camera.jpg\"" + lineEnd);
+
+            dos.writeBytes(lineEnd);
+            dos.write(roi_data,0,roi_data.length);
+            Log.i(TAG, roi_data.length+"bytes written" );
+            dos.writeBytes(lineEnd);
+            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+            dos.flush(); // finish upload...
+
+        } catch (Exception e) {
+            Log.i(TAG, "exception " + e.getMessage());
+            // TODO: handle exception
+        }
+        Log.i(TAG, roi_data.length+"bytes written successed ... finish!!" );
+        try { dos.close(); } catch(Exception e){}
+
+
     }
 }
