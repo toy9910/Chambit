@@ -1,4 +1,4 @@
-package com.example.opencvcameraexample3;
+package com.example.opencvcameraexample3.Class;
 
 public class CarData {
     String car_no;

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    위아래 테두리는 없고 양 옆 테두리만 있는 드로블
+-->
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape>
+            <solid android:color="#333"/>
+        </shape>
+    </item>
+
+    <item android:right="1.5dp" android:left="1.5dp">
+        <shape>
+            <solid android:color="#FFF"/>
+        </shape>
+    </item>
+
+
+</layer-list>

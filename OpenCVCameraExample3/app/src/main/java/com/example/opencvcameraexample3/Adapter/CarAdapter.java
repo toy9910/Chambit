@@ -1,22 +1,23 @@
-package com.example.opencvcameraexample3;
+package com.example.opencvcameraexample3.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.opencvcameraexample3.Class.CarData;
+import com.example.opencvcameraexample3.R;
 
 import java.util.ArrayList;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
     private ArrayList<CarData> arrayList = null;
 
-    CarAdapter(ArrayList<CarData> list) {
+    public CarAdapter(ArrayList<CarData> list) {
         arrayList = list;
     }
 

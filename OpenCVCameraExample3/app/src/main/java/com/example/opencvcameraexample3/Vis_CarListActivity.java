@@ -23,7 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class CarListActivity extends AppCompatActivity {
+public class Vis_CarListActivity extends AppCompatActivity {
     String TAG = "chambit";
     String IP_ADDRESS = "3.35.105.27";
 
@@ -31,29 +31,25 @@ public class CarListActivity extends AppCompatActivity {
     String errorString;
 
     ArrayList<CarData> list = new ArrayList<>();
-    CarAdapter res_adapter;
-
-
+    CarAdapter vis_adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_car_list);
+        setContentView(R.layout.activity_vis__car_list);
 
-        RecyclerView res_recyclerView = findViewById(R.id.res_recycler);
-        res_recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        res_adapter = new CarAdapter(list);
-        res_recyclerView.setAdapter(res_adapter);
+        RecyclerView vis_recyclerView = findViewById(R.id.vis_recycler);
+        vis_recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         list.clear();
-        res_adapter.notifyDataSetChanged();
+        vis_adapter = new CarAdapter(list);
+        vis_recyclerView.setAdapter(vis_adapter);
+        vis_adapter.notifyDataSetChanged();
 
-        GetResData rTask = new GetResData();
-        rTask.execute("http://"+ IP_ADDRESS + "/chambit_res_getjson.php","");
-
+        Vis_CarListActivity.GetVisData vTask = new Vis_CarListActivity.GetVisData();
+        vTask.execute("http://"+ IP_ADDRESS + "/chambit_vis_getjson.php","");
     }
 
-    private class GetResData extends AsyncTask<String,Void,String> {
+    private class GetVisData extends AsyncTask<String,Void,String> {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
@@ -64,7 +60,7 @@ public class CarListActivity extends AppCompatActivity {
             }
             else {
                 mJsonString = s;
-                showResResult();
+                showVisResult();
             }
         }
 
@@ -118,13 +114,13 @@ public class CarListActivity extends AppCompatActivity {
         }
     }
 
-    public void showResResult() {
+    public void showVisResult() {
         String TAG_JSON = "chambit_dev";
-        String TAG_CAR_NO = "res_car_no";
-        String TAG_NAME = "res_name";
-        String TAG_PHONE = "res_phone";
-        String TAG_DONG = "res_dong";
-        String TAG_HO = "res_ho";
+        String TAG_CAR_NO = "vis_car_no";
+        String TAG_NAME = "vis_name";
+        String TAG_PHONE = "vis_phone";
+        String TAG_DONG = "vis_dong";
+        String TAG_HO = "vis_ho";
 
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
@@ -142,12 +138,10 @@ public class CarListActivity extends AppCompatActivity {
 
                 CarData carData = new CarData(car_no,name,phone,address);
                 list.add(carData);
-                res_adapter.notifyDataSetChanged();
+                vis_adapter.notifyDataSetChanged();
             }
         } catch (JSONException e) {
             Log.d(TAG, "showResult: "+e);
         }
     }
-
-
 }

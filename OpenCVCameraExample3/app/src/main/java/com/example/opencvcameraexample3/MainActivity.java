@@ -151,8 +151,24 @@ public class MainActivity extends AppCompatActivity {
         btn_car_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CarListActivity.class);
-                startActivity(intent);
+                String[] arr = {"내부차량 리스트", "외부차량 리스트"};
+                new AlertDialog.Builder(MainActivity.this).setTitle("차량 리스트 조회").setItems(arr, new DialogInterface.OnClickListener() {
+                    @Override public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0 : {
+                                Intent intent = new Intent(getApplicationContext(), CarListActivity.class);
+                                startActivity(intent);
+                                break;
+                            }
+                            case 1 : {
+                                Intent intent = new Intent(getApplicationContext(), Vis_CarListActivity.class);
+                                startActivity(intent);
+                                break;
+                            }
+                        }
+                    }
+                }).setNeutralButton("닫기", null).setPositiveButton("확인", null).show();
+
             }
         });
     }
