@@ -111,8 +111,9 @@
 
             <EditText
                 android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/et_name"/>
+                android:layout_height="match_parent"
+                android:id="@+id/et_name"
+                android:background="@null"/>
 
         </LinearLayout>
 
@@ -133,8 +134,9 @@
 
             <EditText
                 android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/et_phone"/>
+                android:layout_height="match_parent"
+                android:id="@+id/et_phone"
+                android:background="@null"/>
 
         </LinearLayout>
 
@@ -154,8 +156,9 @@
 
             <EditText
                 android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/et_dong"/>
+                android:layout_height="match_parent"
+                android:id="@+id/et_dong"
+                android:background="@null"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -167,8 +170,9 @@
 
             <EditText
                 android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/et_ho"/>
+                android:layout_height="match_parent"
+                android:id="@+id/et_ho"
+                android:background="@null"/>
 
         </LinearLayout>
 

@@ -155,95 +155,116 @@
         </RelativeLayout>
     </GridLayout>
 
+    <!-- 테이블 섹션 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@drawable/edge_design"
+        android:orientation="vertical"
+        android:padding="1dp">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="차량 번호"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:background="@drawable/table_header_design"
-            android:padding="8dp"
-            android:gravity="center"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="차주"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:background="@drawable/table_header_design"
-            android:padding="8dp"
-            android:gravity="center"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="연락처"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:background="@drawable/table_header_design"
-            android:padding="8dp"
-            android:gravity="center"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="주소"
-            android:textStyle="bold"
-            android:layout_weight="1"
-            android:background="@drawable/table_header_design"
-            android:padding="8dp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-
-    <!-- 테이블 바디 -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <!-- 컬럼 세로선 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:text="차량 번호"
+                android:textStyle="bold"
                 android:layout_weight="1"
-                android:background="@drawable/table_column_design" />
-
+                android:background="@drawable/table_header_design"
+                android:padding="8dp"
+                android:gravity="center"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:text="차주"
+                android:textStyle="bold"
                 android:layout_weight="1"
-                android:background="@drawable/table_column_design" />
-
+                android:background="@drawable/table_header_design"
+                android:padding="8dp"
+                android:gravity="center"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:text="연락처"
+                android:textStyle="bold"
                 android:layout_weight="1"
-                android:background="@drawable/table_column_design" />
-
+                android:background="@drawable/table_header_design"
+                android:padding="8dp"
+                android:gravity="center"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:text="주소"
+                android:textStyle="bold"
                 android:layout_weight="1"
-                android:background="@drawable/table_column_design" />
+                android:background="@drawable/table_header_design"
+                android:padding="8dp"
+                android:gravity="center"/>
 
         </LinearLayout>
-        <!-- 끝 : 컬럼 세로선 -->
 
-        <androidx.recyclerview.widget.RecyclerView
+        <!-- 테이블 바디 -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:id="@+id/vis_recycler"/>
+            android:layout_height="wrap_content">
 
-    </FrameLayout>
-    <!-- 끝 : 테이블 바디 -->
+            <!-- 컬럼 세로선 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_column_design" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_column_design" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_column_design" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/table_column_design" />
+
+            </LinearLayout>
+            <!-- 끝 : 컬럼 세로선 -->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:id="@+id/vis_recycler"/>
+
+        </FrameLayout>
+        <!-- 끝 : 테이블 바디 -->
+
+    </LinearLayout>
+
+
+
+    <!-- Button : 더보기 -->
+    <Button
+        android:id="@+id/btn_more_table"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="4dp"
+        android:text="더보기" />
 
 
 </LinearLayout>
