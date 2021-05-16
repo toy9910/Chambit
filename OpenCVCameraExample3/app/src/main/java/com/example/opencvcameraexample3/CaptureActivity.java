@@ -3,12 +3,15 @@ package com.example.opencvcameraexample3;
 import android.annotation.TargetApi;
 import androidx.appcompat.app.AlertDialog;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -28,7 +31,14 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import static android.Manifest.permission.CAMERA;
@@ -38,10 +48,13 @@ public class CaptureActivity extends AppCompatActivity
     private static final String TAG = "toy9910";
     private Mat matInput;
     private Mat m_matRoi;
+    private Mat m_matOrigin;
     Bitmap bmp_result;
+    Bitmap bmp_origin;
     Button roi_capture;
     Rect rect;
     Rect roi_rect;
+    Rect origin_rect;
     private CameraBridgeViewBase mOpenCvCameraView;
 
     static {
@@ -144,7 +157,9 @@ public class CaptureActivity extends AppCompatActivity
         Imgproc.rectangle(matInput,rect,new Scalar(0, 255, 0, 255),5);
 
         roi_rect = new Rect(mRoiX+4,mRoiY+4,mRoiWidth-8,mRoiHeight-8);
+        //origin_rect = new Rect(0, 0, matInput.cols(), matInput.rows());
         m_matRoi = matInput.submat(roi_rect);
+        //m_matOrigin = matInput.submat(origin_rect);
 
         return matInput;
     }
@@ -224,16 +239,45 @@ public class CaptureActivity extends AppCompatActivity
         switch(view.getId()) {
             case R.id.btn_capture: {
                 bmp_result = Bitmap.createBitmap(m_matRoi.cols(),m_matRoi.rows(),Bitmap.Config.ARGB_8888);
+                bmp_origin = Bitmap.createBitmap(matInput.cols(),matInput.rows(),Bitmap.Config.ARGB_8888);
                 Utils.matToBitmap(m_matRoi,bmp_result);
+                Utils.matToBitmap(matInput,bmp_origin);
+
+                long now = System.currentTimeMillis();
+                Date mDate = new Date(now);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                String title = simpleDateFormat.format(mDate);
+                saveBitmapToPng(bmp_origin,title);
 
                 Intent intent = new Intent();
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bmp_result.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                intent.putExtra("roi",byteArray);
+                //bmp_result.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                //bmp_origin.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                //byte[] byteArray = stream.toByteArray();
+                //intent.putExtra("roi",byteArray);
+                intent.putExtra("roi",title);
                 setResult(RESULT_OK,intent);
                 finish();
             }
         }
     }
+
+    public String saveBitmapToPng(Bitmap bitmap , String name) {
+        File storage = getCacheDir(); //  path = /data/user/0/YOUR_PACKAGE_NAME/cache
+        String fileName = name + ".png";
+        File imgFile = new File(storage, fileName);
+        try {
+            imgFile.createNewFile();
+            FileOutputStream out = new FileOutputStream(imgFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out); //썸네일로 사용하므로 퀄리티를 낮게설정
+            out.close();
+        } catch (FileNotFoundException e) {
+            Log.e("saveBitmapToPng","FileNotFoundException : " + e.getMessage());
+        } catch (IOException e) {
+            Log.e("saveBitmapToPng","IOException : " + e.getMessage());
+        }
+        Log.d("imgPath" , getCacheDir() + "/" +fileName);
+        return getCacheDir() + "/" +fileName;
+    }
+
 }

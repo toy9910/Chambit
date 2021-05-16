@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.opencvcameraexample3"
-        minSdkVersion 16
+        minSdkVersion 25
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -45,8 +45,12 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation project(path: ':sdk')
+    implementation('com.google.firebase:firebase-bom:28.0.1')
+    implementation('com.google.firebase:firebase-analytics:17.2.3')
     testImplementation 'junit:junit:4.+'
     compile 'com.rmtheis:tess-two:6.3.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }
+
+apply plugin: 'com.google.gms.google-services'

@@ -9,11 +9,13 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.View;
@@ -40,6 +42,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,6 +50,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -323,22 +327,30 @@ public class MainActivity extends AppCompatActivity {
 
         if(requestCode == 0) {
             if(resultCode==RESULT_OK) {
-                sTess = new TessBaseAPI();
+                //sTess = new TessBaseAPI();
                 lang = "kor";
                 datapath = getFilesDir() + "/tesseract";
 
-                if(checkFile(new File(datapath+"/tessdata")))
+                /*if(checkFile(new File(datapath+"/tessdata")))
                 {
                     sTess.init(datapath, lang);
-                }
+                }*/
 
                 roi_img = (ImageView)findViewById(R.id.roi_photo);
 
-                roi_data = data.getByteArrayExtra("roi");
-                image = BitmapFactory.decodeByteArray(roi_data,0,roi_data.length);
+                //roi_data = data.getByteArrayExtra("roi");
+                //image = BitmapFactory.decodeByteArray(roi_data,0,roi_data.length);
+                String title = data.getStringExtra("roi");
+                File storage = getCacheDir();
+                File imgFile = new File(storage,title+".png");
+                try {
+                    image = BitmapFactory.decodeStream(new FileInputStream(imgFile));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
                 roi_img.setImageBitmap(image);
 
-                new AsyncTess().execute(image);
+                //new AsyncTess().execute(image);
             }
         }
     }

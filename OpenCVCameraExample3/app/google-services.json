@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "673032998514",
+    "firebase_url": "https://test-4366e-default-rtdb.firebaseio.com",
+    "project_id": "test-4366e",
+    "storage_bucket": "test-4366e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673032998514:android:88b547fb7ccb1f6b22bceb",
+        "android_client_info": {
+          "package_name": "com.example.firebasephototest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "673032998514-sv0qv3pnoqep5obv5mr7llojq6itbvv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcQs8tQM0i-SWaYn0mVcc1tS7gCNxI4gA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "673032998514-sv0qv3pnoqep5obv5mr7llojq6itbvv0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:673032998514:android:c2351e3ec957d68822bceb",
+        "android_client_info": {
+          "package_name": "com.example.opencvcameraexample3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "673032998514-sv0qv3pnoqep5obv5mr7llojq6itbvv0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcQs8tQM0i-SWaYn0mVcc1tS7gCNxI4gA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "673032998514-sv0qv3pnoqep5obv5mr7llojq6itbvv0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
