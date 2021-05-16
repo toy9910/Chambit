@@ -47,6 +47,7 @@ public class CaptureActivity extends AppCompatActivity
         implements CameraBridgeViewBase.CvCameraViewListener2{
     private static final String TAG = "toy9910";
     private Mat matInput;
+    private Mat matInput2;
     private Mat m_matRoi;
     private Mat m_matOrigin;
     Bitmap bmp_result;
@@ -55,6 +56,7 @@ public class CaptureActivity extends AppCompatActivity
     Rect rect;
     Rect roi_rect;
     Rect origin_rect;
+    int flag = 0;
     private CameraBridgeViewBase mOpenCvCameraView;
 
     static {
@@ -161,6 +163,9 @@ public class CaptureActivity extends AppCompatActivity
         m_matRoi = matInput.submat(roi_rect);
         //m_matOrigin = matInput.submat(origin_rect);
 
+        if(flag == 1) {
+            rect.x=rect.y=rect.width=rect.height=0;
+        }
         return matInput;
     }
 
