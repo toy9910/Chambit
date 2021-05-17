@@ -47,15 +47,12 @@ public class CaptureActivity extends AppCompatActivity
         implements CameraBridgeViewBase.CvCameraViewListener2{
     private static final String TAG = "toy9910";
     private Mat matInput;
-    private Mat matInput2;
     private Mat m_matRoi;
-    private Mat m_matOrigin;
     Bitmap bmp_result;
     Bitmap bmp_origin;
     Button roi_capture;
     Rect rect;
     Rect roi_rect;
-    Rect origin_rect;
     int flag = 0;
     private CameraBridgeViewBase mOpenCvCameraView;
 
@@ -256,11 +253,10 @@ public class CaptureActivity extends AppCompatActivity
 
                 Intent intent = new Intent();
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                //bmp_result.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                //bmp_origin.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                //byte[] byteArray = stream.toByteArray();
-                //intent.putExtra("roi",byteArray);
-                intent.putExtra("roi",title);
+                bmp_result.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                intent.putExtra("roi",byteArray);
+                intent.putExtra("title",title);
                 setResult(RESULT_OK,intent);
                 finish();
             }

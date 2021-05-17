@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,8 +33,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -84,14 +89,15 @@ public class MainActivity extends AppCompatActivity {
     String lang;
     String datapath;
     byte[] roi_data;
-    DataOutputStream dos;
 
     Button btn_car_list;
     Button btn_register;
     int selected = -1;
 
     String[] permission_list = {
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     @Override
@@ -330,7 +336,6 @@ public class MainActivity extends AppCompatActivity {
             }
             case R.id.btn_car_search: {
                 Log.d(TAG, "onClick: clicked");
-                doFileUpload();
                 break;
             }
         }
@@ -342,39 +347,67 @@ public class MainActivity extends AppCompatActivity {
 
         if(requestCode == 0) {
             if(resultCode==RESULT_OK) {
-                //sTess = new TessBaseAPI();
+                sTess = new TessBaseAPI();
                 lang = "kor";
                 datapath = getFilesDir() + "/tesseract";
 
-                /*if(checkFile(new File(datapath+"/tessdata")))
+                if(checkFile(new File(datapath+"/tessdata")))
                 {
                     sTess.init(datapath, lang);
-                }*/
+                }
 
                 roi_img = (ImageView)findViewById(R.id.roi_photo);
 
-                //roi_data = data.getByteArrayExtra("roi");
-                //image = BitmapFactory.decodeByteArray(roi_data,0,roi_data.length);
-                String title = data.getStringExtra("roi");
+                // CaptureActivity로 부터 roi 부분만 캡처한 것 가져오기
+                roi_data = data.getByteArrayExtra("roi");
+                image = BitmapFactory.decodeByteArray(roi_data,0,roi_data.length);
+                roi_img.setImageBitmap(image);
+
+                // CaptureActivity에서 보낸 경로에서 원본 사진 가져오기
+                String title = data.getStringExtra("title");
                 File storage = getCacheDir();
                 File imgFile = new File(storage,title+".png");
+
                 try {
+                    // File 형태를 Bitmap으로 변환
                     image = BitmapFactory.decodeStream(new FileInputStream(imgFile));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
                 roi_img.setImageBitmap(image);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] data3 = baos.toByteArray();
 
-               /*
+
                 Uri uri = Uri.fromFile(imgFile);
-                FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                FirebaseStorage storage1 = FirebaseStorage.getInstance();
+                StorageReference storageRef = storage1.getReferenceFromUrl("gs://chambit-da2c6.appspot.com");
+                StorageReference rivRef = storageRef.child("car_img/"+ title + ".png");
+                UploadTask uploadTask1 = rivRef.putFile(uri);
+                Log.d(TAG, "onActivityResult: "+storageRef.toString());
+                uploadTask1.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        Log.d(TAG, "onSuccess: 이미지 업로드 완료");
+                        Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+                /*FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
                 StorageReference storageReference = firebaseStorage.getReference();
+                Log.d(TAG, "onActivityResult: "+uri.toString());
                 StorageReference riversRef = storageReference.child("car_img/"+title+".png");
                 UploadTask uploadTask = riversRef.putFile(uri);
+                roi_img.setImageBitmap(image);
+
+
 
                 uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d(TAG, "onSuccess: 이미지 업로드 완료");
                         Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
                     }
                 });*/
@@ -384,57 +417,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public void doFileUpload() {
-        try {
-            URL url = new URL("http://" + IP_ADDRESS + ":8080/photo");
-
-            String lineEnd = "\r\n";
-            String twoHyphens = "--";
-            String boundary = "*****";
-
-            // open connection
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            con.setDoInput(true); //input 허용
-            con.setDoOutput(true);  // output 허용
-            con.setUseCaches(false);   // cache copy를 허용하지 않는다.
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Connection", "Keep-Alive");
-            con.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-
-            // write data
-            DataOutputStream dos =
-                    new DataOutputStream(con.getOutputStream());
-            Log.i(TAG, "Open OutputStream" );
-            dos.writeBytes(twoHyphens + boundary + lineEnd);
-
-            // 파일 전송시 파라메터명은 file1 파일명은 camera.jpg로 설정하여 전송
-            dos.writeBytes("Content-Disposition: form-data; name=\"file1\";filename=\"camera.jpg\"" + lineEnd);
-
-            dos.writeBytes(lineEnd);
-            dos.write(roi_data,0,roi_data.length);
-            Log.i(TAG, roi_data.length+"bytes written" );
-            dos.writeBytes(lineEnd);
-            dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-            dos.flush(); // finish upload...
-
-        } catch (Exception e) {
-            Log.i(TAG, "exception " + e.getMessage());
-            // TODO: handle exception
-        }
-        Log.i(TAG, roi_data.length+"bytes written successed ... finish!!" );
-        try { dos.close(); } catch(Exception e){}
-    }
-
-    public static Uri path2uri(Context context, String filePath) {
-        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, null, "_data = '" + filePath + "'", null, null);
-
-        cursor.moveToNext();
-        int id = cursor.getInt(cursor.getColumnIndex("_id"));
-        Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-
-        return uri;
-    }
 
     public void checkPermission(){
         //현재 안드로이드 버전이 6.0미만이면 메서드를 종료한다.
