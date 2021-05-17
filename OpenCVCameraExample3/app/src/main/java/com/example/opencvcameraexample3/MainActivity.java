@@ -374,10 +374,6 @@ public class MainActivity extends AppCompatActivity {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-                roi_img.setImageBitmap(image);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] data3 = baos.toByteArray();
 
 
                 Uri uri = Uri.fromFile(imgFile);
