@@ -247,7 +247,7 @@ public class CaptureActivity extends AppCompatActivity
 
                 long now = System.currentTimeMillis();
                 Date mDate = new Date(now);
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
                 String title = simpleDateFormat.format(mDate);
                 saveBitmapToPng(bmp_origin,title);
 
