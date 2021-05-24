@@ -300,11 +300,11 @@ public class MainActivity extends AppCompatActivity {
             String str_car_no = tes_result.getText().toString();
             String str_name = name.getText().toString();
             String str_phone = phone.getText().toString();
-            StringBuffer sb = new StringBuffer();
-            sb.append(str_phone);
-            sb.insert(3,"-");
-            sb.insert(7,"-");
-            str_phone = sb.toString();
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append(str_phone);
+            stringBuffer.insert(3,"-");
+            stringBuffer.insert(7,"-");
+            str_phone = stringBuffer.toString();
             String str_dong = dong.getText().toString() + "동";
             String str_ho = ho.getText().toString() + "호";
 
@@ -394,6 +394,18 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.d(TAG, "onFailure: " + e.getMessage());
 //                    }
 //                });
+                Uri uri = Uri.fromFile(imgFile);
+                String imgTitle = phone.getText().toString();
+                StorageReference rivRef = storageReference.child("car_img/"+ imgTitle + ".png");
+                UploadTask uploadTask1 = rivRef.putFile(uri);
+                Log.d(TAG, "onActivityResult: "+storageReference.toString());
+                uploadTask1.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        Log.d(TAG, "onSuccess: 이미지 업로드 완료");
+                        Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
             }
         }

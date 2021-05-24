@@ -25,6 +25,7 @@ import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
@@ -45,15 +46,16 @@ import static android.Manifest.permission.CAMERA;
 
 public class CaptureActivity extends AppCompatActivity
         implements CameraBridgeViewBase.CvCameraViewListener2{
-    private static final String TAG = "toy9910";
+    private static final String TAG = "chambit";
     private Mat matInput;
     private Mat m_matRoi;
     Bitmap bmp_result;
     Bitmap bmp_origin;
     Button roi_capture;
-    Rect rect;
+    Rect rect = new Rect();
     Rect roi_rect;
-    int flag = 0;
+    int flag;
+    String origin_title;
     private CameraBridgeViewBase mOpenCvCameraView;
 
     static {
@@ -110,6 +112,7 @@ public class CaptureActivity extends AppCompatActivity
     public void onResume()
     {
         super.onResume();
+        flag = 0;
 
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "onResume :: Internal OpenCV library not found.");
@@ -143,6 +146,7 @@ public class CaptureActivity extends AppCompatActivity
 
         matInput = inputFrame.rgba();
 
+
         double m_dWscale = (double)  1/3;
         double m_dHscale = (double) 1/5;
 
@@ -152,17 +156,23 @@ public class CaptureActivity extends AppCompatActivity
         int mRoiX = (int) (matInput.size().width - mRoiWidth) / 2;
         int mRoiY = (int) (matInput.size().height - mRoiHeight) / 2;
 
-        rect = new Rect(mRoiX,mRoiY,mRoiWidth,mRoiHeight);
-        Imgproc.rectangle(matInput,rect,new Scalar(0, 255, 0, 255),5);
+        if(flag == 0) {
+            rect.x = mRoiX;
+            rect.y = mRoiY;
+            rect.width = mRoiWidth;
+            rect.height = mRoiHeight;
 
-        roi_rect = new Rect(mRoiX+4,mRoiY+4,mRoiWidth-8,mRoiHeight-8);
-        //origin_rect = new Rect(0, 0, matInput.cols(), matInput.rows());
-        m_matRoi = matInput.submat(roi_rect);
-        //m_matOrigin = matInput.submat(origin_rect);
+            Imgproc.rectangle(matInput, rect, new Scalar(0, 255, 0, 255), 5);
 
-        if(flag == 1) {
-            rect.x=rect.y=rect.width=rect.height=0;
+            roi_rect = new Rect(mRoiX + 4, mRoiY + 4, mRoiWidth - 8, mRoiHeight - 8);
+            m_matRoi = matInput.submat(roi_rect);
         }
+        else {
+            bmp_origin = Bitmap.createBitmap(matInput.cols(),matInput.rows(),Bitmap.Config.ARGB_8888);
+            Utils.matToBitmap(matInput,bmp_origin);
+            saveBitmapToPng(bmp_origin,origin_title);
+        }
+
         return matInput;
     }
 
@@ -240,23 +250,23 @@ public class CaptureActivity extends AppCompatActivity
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.btn_capture: {
-                bmp_result = Bitmap.createBitmap(m_matRoi.cols(),m_matRoi.rows(),Bitmap.Config.ARGB_8888);
-                bmp_origin = Bitmap.createBitmap(matInput.cols(),matInput.rows(),Bitmap.Config.ARGB_8888);
-                Utils.matToBitmap(m_matRoi,bmp_result);
-                Utils.matToBitmap(matInput,bmp_origin);
+                flag = 1;
 
+                bmp_result = Bitmap.createBitmap(m_matRoi.cols(),m_matRoi.rows(),Bitmap.Config.ARGB_8888);
+                Utils.matToBitmap(m_matRoi,bmp_result);
+
+                rect.x = rect.y = rect.width = rect.height = 0;
                 long now = System.currentTimeMillis();
                 Date mDate = new Date(now);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd k:mm:ss");
-                String title = simpleDateFormat.format(mDate);
-                saveBitmapToPng(bmp_origin,title);
+                origin_title = simpleDateFormat.format(mDate);
 
                 Intent intent = new Intent();
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bmp_result.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
                 intent.putExtra("roi",byteArray);
-                intent.putExtra("title",title);
+                intent.putExtra("title",origin_title);
                 setResult(RESULT_OK,intent);
                 finish();
             }
