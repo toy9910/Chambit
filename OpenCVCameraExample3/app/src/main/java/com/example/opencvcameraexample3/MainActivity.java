@@ -16,6 +16,7 @@ import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,7 +34,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
@@ -94,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
     Button btn_register;
     int selected = -1;
 
+    FirebaseStorage firebaseStorage;
+    StorageReference storageReference;
+    File imgFile;
+
     String[] permission_list = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.INTERNET,
@@ -105,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        roi_img = (ImageView)findViewById(R.id.roi_photo);
         tes_result = findViewById(R.id.tess_result);
         name = findViewById(R.id.et_name);
         phone = findViewById(R.id.et_phone);
@@ -112,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
         ho = findViewById(R.id.et_ho);
         btn_car_list = findViewById(R.id.btn_car_list);
         btn_register = findViewById(R.id.btn_register);
+
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReferenceFromUrl("gs://chambit-da2c6.appspot.com");
 
         checkPermission();
 
@@ -141,6 +152,22 @@ public class MainActivity extends AppCompatActivity {
                                     InsertData insertData = new InsertData();
                                     insertData.execute("http://" + IP_ADDRESS + "/chambit_res_insert.php");
                                     Toast.makeText(getApplicationContext(), "입주자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
+
+                                    // 파이어베이스에 업로드
+                                    Uri uri = Uri.fromFile(imgFile);
+
+                                    String imgTitle = phone.toString();
+                                    StorageReference rivRef = storageReference.child("car_img/"+ imgTitle + ".png");
+                                    UploadTask uploadTask1 = rivRef.putFile(uri);
+                                    Log.d(TAG, "onActivityResult: "+storageReference.toString());
+                                    uploadTask1.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                            Log.d(TAG, "onSuccess: 이미지 업로드 완료");
+                                            Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
                                     tes_result.setText("");
                                     name.setText("");
                                     phone.setText("");
@@ -158,6 +185,21 @@ public class MainActivity extends AppCompatActivity {
                                     InsertData insertData = new InsertData();
                                     insertData.execute("http://" + IP_ADDRESS + "/chambit_vis_insert.php");
                                     Toast.makeText(getApplicationContext(), "방문자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
+
+                                    // 파이어베이스에 업로드
+                                    Uri uri = Uri.fromFile(imgFile);
+                                    String imgTitle = phone.toString();
+                                    StorageReference rivRef = storageReference.child("car_img/"+ imgTitle + ".png");
+                                    UploadTask uploadTask1 = rivRef.putFile(uri);
+                                    Log.d(TAG, "onActivityResult: "+storageReference.toString());
+                                    uploadTask1.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                            Log.d(TAG, "onSuccess: 이미지 업로드 완료");
+                                            Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
                                     tes_result.setText("");
                                     name.setText("");
                                     phone.setText("");
@@ -258,6 +300,11 @@ public class MainActivity extends AppCompatActivity {
             String str_car_no = tes_result.getText().toString();
             String str_name = name.getText().toString();
             String str_phone = phone.getText().toString();
+            StringBuffer sb = new StringBuffer();
+            sb.append(str_phone);
+            sb.insert(3,"-");
+            sb.insert(7,"-");
+            str_phone = sb.toString();
             String str_dong = dong.getText().toString() + "동";
             String str_ho = ho.getText().toString() + "호";
 
@@ -335,7 +382,18 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.btn_car_search: {
-                Log.d(TAG, "onClick: clicked");
+                // 파이어베이스에서 이미지 다운로드
+//                storageReference.child("car_img/"+ phone.getText().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        Glide.with(getApplicationContext()).load(uri).into(roi_img);
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.d(TAG, "onFailure: " + e.getMessage());
+//                    }
+//                });
                 break;
             }
         }
@@ -356,8 +414,6 @@ public class MainActivity extends AppCompatActivity {
                     sTess.init(datapath, lang);
                 }
 
-                roi_img = (ImageView)findViewById(R.id.roi_photo);
-
                 // CaptureActivity로 부터 roi 부분만 캡처한 것 가져오기
                 roi_data = data.getByteArrayExtra("roi");
                 image = BitmapFactory.decodeByteArray(roi_data,0,roi_data.length);
@@ -366,7 +422,7 @@ public class MainActivity extends AppCompatActivity {
                 // CaptureActivity에서 보낸 경로에서 원본 사진 가져오기
                 String title = data.getStringExtra("title");
                 File storage = getCacheDir();
-                File imgFile = new File(storage,title+".png");
+                imgFile = new File(storage,title+".png");
 
                 try {
                     // File 형태를 Bitmap으로 변환
@@ -374,39 +430,6 @@ public class MainActivity extends AppCompatActivity {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
-
-                Uri uri = Uri.fromFile(imgFile);
-                FirebaseStorage storage1 = FirebaseStorage.getInstance();
-                StorageReference storageRef = storage1.getReferenceFromUrl("gs://chambit-da2c6.appspot.com");
-                StorageReference rivRef = storageRef.child("car_img/"+ title + ".png");
-                UploadTask uploadTask1 = rivRef.putFile(uri);
-                Log.d(TAG, "onActivityResult: "+storageRef.toString());
-                uploadTask1.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        Log.d(TAG, "onSuccess: 이미지 업로드 완료");
-                        Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-
-                /*FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
-                StorageReference storageReference = firebaseStorage.getReference();
-                Log.d(TAG, "onActivityResult: "+uri.toString());
-                StorageReference riversRef = storageReference.child("car_img/"+title+".png");
-                UploadTask uploadTask = riversRef.putFile(uri);
-                roi_img.setImageBitmap(image);
-
-
-
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Log.d(TAG, "onSuccess: 이미지 업로드 완료");
-                        Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
-                    }
-                });*/
 
                 //new AsyncTess().execute(image);
             }
