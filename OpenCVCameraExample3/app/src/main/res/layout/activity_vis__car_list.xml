@@ -16,22 +16,24 @@
         android:padding="4dp">
 
         <!-- TextView: 목록 -->
-        <TextView
-            android:id="@+id/mok"
+        <Button
+            android:onClick="onClick"
+            android:id="@+id/btn_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/gray"
             android:padding="10dp"
-            android:text="목록"
+            android:text="등록"
             android:textColor="@color/blue"
             android:layout_alignParentLeft="true" />
 
         <!-- TextView: 목록 -->
-        <TextView
+        <Button
+            android:onClick="onClick"
+            android:id="@+id/btn_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="외부차량"
+            android:text="내부차량"
             android:textColor="@color/blue"
             android:layout_alignParentLeft="true" />
 

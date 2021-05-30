@@ -4,12 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-
-import com.example.opencvcameraexample3.Adapter.CarAdapter;
-import com.example.opencvcameraexample3.Class.CarData;
+import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,6 +50,28 @@ public class CarListActivity extends AppCompatActivity {
         GetResData rTask = new GetResData();
         rTask.execute("http://"+ IP_ADDRESS + "/chambit_res_getjson.php","");
 
+    }
+
+    public void onClick(View view) {
+
+        switch (view.getId()){
+            case R.id.btn_register : {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                break;
+            }
+
+            case R.id.btn_vis_list:  {
+                Intent intent = new Intent(getApplicationContext(), Vis_CarListActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.btn_more_table:{
+                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
+                startActivity(intent);
+                break;
+            }
+        }
     }
 
     private class GetResData extends AsyncTask<String,Void,String> {

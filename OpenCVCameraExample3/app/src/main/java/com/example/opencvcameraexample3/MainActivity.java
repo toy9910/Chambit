@@ -26,15 +26,7 @@ import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase;
-import org.opencv.android.LoaderCallbackInterface;
-import org.opencv.android.OpenCVLoader;
-import org.opencv.android.Utils;
-import org.opencv.core.Mat;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
+
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -130,14 +122,37 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_LONG).show();
                                 }
                                 else {
-                                    InsertData insertData = new InsertData();
-                                    insertData.execute("http://" + IP_ADDRESS + "/chambit_vis_insert.php");
-                                    Toast.makeText(getApplicationContext(), "방문자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
-                                    tes_result.setText("");
-                                    name.setText("");
-                                    phone.setText("");
-                                    dong.setText("");
-                                    ho.setText("");
+                                    final EditText txtEdit = new EditText( MainActivity.this );
+
+                                    AlertDialog.Builder clsBuilder = new AlertDialog.Builder( MainActivity.this );
+                                    clsBuilder.setTitle( "출차 예상 시간" );
+                                    clsBuilder.setView( txtEdit );
+                                    clsBuilder.setPositiveButton("확인",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick( DialogInterface dialog, int which) {
+                                                    // ToDo : 얘가 출차예정시간임 추가해서 넣으면 됨
+                                                    String strText = txtEdit.getText().toString();
+
+
+                                                    InsertData insertData = new InsertData();
+                                                    insertData.execute("http://" + IP_ADDRESS + "/chambit_vis_insert.php");
+                                                    Toast.makeText(getApplicationContext(), "방문자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
+                                                    tes_result.setText("");
+                                                    name.setText("");
+                                                    phone.setText("");
+                                                    dong.setText("");
+                                                    ho.setText("");
+
+                                                }
+                                            });
+                                    clsBuilder.setNegativeButton("취소",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                }
+                                            });
+                                    clsBuilder.show();
+
                                 }
                                 break;
                             }
@@ -307,11 +322,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_start_capture: {
                 Intent intent = new Intent(MainActivity.this,CaptureActivity.class);
                 startActivityForResult(intent,0);
-                break;
-            }
-            case R.id.btn_car_search: {
-                Log.d(TAG, "onClick: clicked");
-                doFileUpload();
                 break;
             }
         }

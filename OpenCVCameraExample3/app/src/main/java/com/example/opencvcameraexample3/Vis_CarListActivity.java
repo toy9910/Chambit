@@ -4,12 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-
-import com.example.opencvcameraexample3.Adapter.CarAdapter;
-import com.example.opencvcameraexample3.Class.CarData;
+import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +46,22 @@ public class Vis_CarListActivity extends AppCompatActivity {
 
         Vis_CarListActivity.GetVisData vTask = new Vis_CarListActivity.GetVisData();
         vTask.execute("http://"+ IP_ADDRESS + "/chambit_vis_getjson.php","");
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_register : {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                break;
+            }
+
+            case R.id.btn_list:  {
+                Intent intent = new Intent(getApplicationContext(), CarListActivity.class);
+                startActivity(intent);
+                break;
+            }
+        }
     }
 
     private class GetVisData extends AsyncTask<String,Void,String> {
