@@ -150,13 +150,17 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 else {
                                     InsertData insertData = new InsertData();
-                                    insertData.execute("http://" + IP_ADDRESS + "/chambit_res_insert.php");
+                                    insertData.execute("http://" + IP_ADDRESS + "/chambit_res_insert.php","0");
                                     Toast.makeText(getApplicationContext(), "입주자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
 
                                     // 파이어베이스에 업로드
                                     Uri uri = Uri.fromFile(imgFile);
 
-                                    String imgTitle = phone.toString();
+                                    StringBuffer stringBuffer = new StringBuffer();
+                                    stringBuffer.append(phone.getText().toString());
+                                    stringBuffer.insert(3,"-");
+                                    stringBuffer.insert(8,"-");
+                                    String imgTitle = stringBuffer.toString();
                                     StorageReference rivRef = storageReference.child("car_img/"+ imgTitle + ".png");
                                     UploadTask uploadTask1 = rivRef.putFile(uri);
                                     Log.d(TAG, "onActivityResult: "+storageReference.toString());
@@ -183,12 +187,16 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 else {
                                     InsertData insertData = new InsertData();
-                                    insertData.execute("http://" + IP_ADDRESS + "/chambit_vis_insert.php");
+                                    insertData.execute("http://" + IP_ADDRESS + "/chambit_vis_insert.php","1");
                                     Toast.makeText(getApplicationContext(), "방문자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
 
                                     // 파이어베이스에 업로드
                                     Uri uri = Uri.fromFile(imgFile);
-                                    String imgTitle = phone.toString();
+                                    StringBuffer stringBuffer = new StringBuffer();
+                                    stringBuffer.append(phone.getText().toString());
+                                    stringBuffer.insert(3,"-");
+                                    stringBuffer.insert(8,"-");
+                                    String imgTitle = stringBuffer.toString();
                                     StorageReference rivRef = storageReference.child("car_img/"+ imgTitle + ".png");
                                     UploadTask uploadTask1 = rivRef.putFile(uri);
                                     Log.d(TAG, "onActivityResult: "+storageReference.toString());
@@ -305,12 +313,20 @@ public class MainActivity extends AppCompatActivity {
             stringBuffer.insert(3,"-");
             stringBuffer.insert(7,"-");
             str_phone = stringBuffer.toString();
-            String str_dong = dong.getText().toString() + "동";
+            String str_dong = dong.getText().toString() + "동 ";
             String str_ho = ho.getText().toString() + "호";
 
             String serverURL = strings[0];
-            String postParameters = "car_no=" + str_car_no + "&name=" + str_name + "&phone=" + str_phone
-                    + "&dong=" + str_dong + "&ho=" + str_ho;
+            String postParameters;
+            if(strings[1].equals("0")) {
+                postParameters = "car_no=" + str_car_no + "&name=" + str_name + "&phone=" + str_phone
+                        + "&ho=" + str_dong + str_ho;
+            }
+            else {
+                String out_time = "";
+                postParameters = "car_no=" + str_car_no + "&name=" + str_name + "&phone=" + str_phone
+                        + "&ho=" + str_dong + str_ho + "&outtime=" + out_time;
+            }
 
             try {
                 URL url = new URL(serverURL);
@@ -394,18 +410,6 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.d(TAG, "onFailure: " + e.getMessage());
 //                    }
 //                });
-                Uri uri = Uri.fromFile(imgFile);
-                String imgTitle = phone.getText().toString();
-                StorageReference rivRef = storageReference.child("car_img/"+ imgTitle + ".png");
-                UploadTask uploadTask1 = rivRef.putFile(uri);
-                Log.d(TAG, "onActivityResult: "+storageReference.toString());
-                uploadTask1.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        Log.d(TAG, "onSuccess: 이미지 업로드 완료");
-                        Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
-                    }
-                });
                 break;
             }
         }
@@ -436,12 +440,6 @@ public class MainActivity extends AppCompatActivity {
                 File storage = getCacheDir();
                 imgFile = new File(storage,title+".png");
 
-                try {
-                    // File 형태를 Bitmap으로 변환
-                    image = BitmapFactory.decodeStream(new FileInputStream(imgFile));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
 
                 //new AsyncTess().execute(image);
             }

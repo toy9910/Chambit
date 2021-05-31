@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.opencvcameraexample3.Adapter.CarAdapter;
 import com.example.opencvcameraexample3.Class.CarData;
@@ -47,6 +49,22 @@ public class Vis_CarListActivity extends AppCompatActivity {
 
         Vis_CarListActivity.GetVisData vTask = new Vis_CarListActivity.GetVisData();
         vTask.execute("http://"+ IP_ADDRESS + "/chambit_vis_getjson.php","");
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_register : {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                break;
+            }
+
+            case R.id.btn_list:  {
+                Intent intent = new Intent(getApplicationContext(), CarListActivity.class);
+                startActivity(intent);
+                break;
+            }
+        }
     }
 
     private class GetVisData extends AsyncTask<String,Void,String> {
@@ -119,8 +137,6 @@ public class Vis_CarListActivity extends AppCompatActivity {
         String TAG_CAR_NO = "vis_car_no";
         String TAG_NAME = "vis_name";
         String TAG_PHONE = "vis_phone";
-        String TAG_DONG = "vis_dong";
-        String TAG_HO = "vis_ho";
 
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
@@ -132,11 +148,8 @@ public class Vis_CarListActivity extends AppCompatActivity {
                 String car_no = item.getString(TAG_CAR_NO);
                 String name = item.getString(TAG_NAME);
                 String phone = item.getString(TAG_PHONE);
-                String dong = item.getString(TAG_DONG);
-                String ho = item.getString(TAG_HO);
-                String address = dong + " " + ho;
 
-                CarData carData = new CarData(car_no,name,phone,address);
+                CarData carData = new CarData(car_no,name,phone,"");
                 list.add(carData);
                 vis_adapter.notifyDataSetChanged();
             }
