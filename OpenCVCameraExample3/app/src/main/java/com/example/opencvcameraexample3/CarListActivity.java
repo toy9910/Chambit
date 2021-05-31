@@ -69,11 +69,6 @@ public class CarListActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             }
-            case R.id.btn_more_table:{
-                Intent intent = new Intent(getApplicationContext(), DetailActivity.class);
-                startActivity(intent);
-                break;
-            }
         }
     }
 
