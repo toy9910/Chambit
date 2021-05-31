@@ -211,34 +211,55 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "주소를 제대로 입력하세요.", Toast.LENGTH_LONG).show();
                                 }
                                 else {
-                                    InsertData insertData = new InsertData();
-                                    insertData.execute("http://" + IP_ADDRESS + "/chambit_vis_insert.php","1");
-                                    Toast.makeText(getApplicationContext(), "방문자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
+                                    final EditText txtEdit = new EditText( MainActivity.this );
 
-                                    // 파이어베이스에 업로드
-                                    Uri uri = Uri.fromFile(imgFile);
-                                    StringBuffer stringBuffer = new StringBuffer();
-                                    stringBuffer.append(phone.getText().toString());
-                                    stringBuffer.insert(3,"-");
-                                    stringBuffer.insert(8,"-");
-                                    String imgTitle = stringBuffer.toString();
-                                    StorageReference rivRef = storageReference.child("car_img/"+ imgTitle + ".png");
-                                    UploadTask uploadTask1 = rivRef.putFile(uri);
-                                    Log.d(TAG, "onActivityResult: "+storageReference.toString());
-                                    uploadTask1.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                    AlertDialog.Builder clsBuilder = new AlertDialog.Builder( MainActivity.this );
+                                    clsBuilder.setTitle( "출차 예상 시간" );
+                                    clsBuilder.setView( txtEdit );
+                                    clsBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                         @Override
-                                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                            Log.d(TAG, "onSuccess: 이미지 업로드 완료");
-                                            Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String strText = txtEdit.getText().toString();
+
+                                            InsertData insertData = new InsertData();
+                                            insertData.execute("http://" + IP_ADDRESS + "/chambit_vis_insert.php","1",strText);
+                                            Toast.makeText(getApplicationContext(), "방문자 차량이 등록되었습니다.", Toast.LENGTH_LONG).show();
+
+                                            // 파이어베이스에 업로드
+                                            Uri uri = Uri.fromFile(imgFile);
+                                            StringBuffer stringBuffer = new StringBuffer();
+                                            stringBuffer.append(phone.getText().toString());
+                                            stringBuffer.insert(3,"-");
+                                            stringBuffer.insert(8,"-");
+                                            String imgTitle = stringBuffer.toString();
+                                            StorageReference rivRef = storageReference.child("car_img/"+ imgTitle + ".png");
+                                            UploadTask uploadTask1 = rivRef.putFile(uri);
+                                            Log.d(TAG, "onActivityResult: "+storageReference.toString());
+                                            uploadTask1.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                                    Log.d(TAG, "onSuccess: 이미지 업로드 완료");
+                                                    Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                            tes_result.setText("");
+                                            name.setText("");
+                                            phone.setText("");
+                                            dong.setText("");
+                                            ho.setText("");
+                                            roi_img.setImageBitmap(null);
                                         }
                                     });
+                                    clsBuilder.setNegativeButton("취소",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
 
-                                    tes_result.setText("");
-                                    name.setText("");
-                                    phone.setText("");
-                                    dong.setText("");
-                                    ho.setText("");
-                                    roi_img.setImageBitmap(null);
+                                                }
+                                            });
+                                    clsBuilder.show();
+
+
                                 }
                                 break;
                             }
@@ -349,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
                         + "&ho=" + str_dong + str_ho;
             }
             else {
-                String out_time = "";
+                String out_time = strings[2];
                 postParameters = "car_no=" + str_car_no + "&name=" + str_name + "&phone=" + str_phone
                         + "&ho=" + str_dong + str_ho + "&outtime=" + out_time;
             }
