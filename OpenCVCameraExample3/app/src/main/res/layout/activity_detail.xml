@@ -161,7 +161,7 @@
                 android:textColor="@color/blue" />
         </LinearLayout>
 
-        <ImageView
+        <ImageView android:id="@+id/car_imageview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >

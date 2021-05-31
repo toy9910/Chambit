@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                                     phone.setText("");
                                     dong.setText("");
                                     ho.setText("");
+                                    roi_img.setImageBitmap(null);
                                 }
                                 break;
                             }
@@ -237,6 +238,7 @@ public class MainActivity extends AppCompatActivity {
                                     phone.setText("");
                                     dong.setText("");
                                     ho.setText("");
+                                    roi_img.setImageBitmap(null);
                                 }
                                 break;
                             }
@@ -335,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
             StringBuffer stringBuffer = new StringBuffer();
             stringBuffer.append(str_phone);
             stringBuffer.insert(3,"-");
-            stringBuffer.insert(7,"-");
+            stringBuffer.insert(8,"-");
             str_phone = stringBuffer.toString();
             String str_dong = dong.getText().toString() + "동 ";
             String str_ho = ho.getText().toString() + "호";
@@ -422,18 +424,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
             case R.id.btn_car_search: {
-                // 파이어베이스에서 이미지 다운로드
-//                storageReference.child("car_img/"+ phone.getText().toString() + ".png").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        Glide.with(getApplicationContext()).load(uri).into(roi_img);
-//                    }
-//                }).addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.d(TAG, "onFailure: " + e.getMessage());
-//                    }
-//                });
+
                 break;
             }
         }

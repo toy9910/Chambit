@@ -60,12 +60,14 @@ public class CarListActivity extends AppCompatActivity {
         switch (view.getId()){
             case R.id.btn_register : {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             }
 
             case R.id.btn_vis_list:  {
                 Intent intent = new Intent(getApplicationContext(), Vis_CarListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             }
@@ -76,6 +78,7 @@ public class CarListActivity extends AppCompatActivity {
             }
         }
     }
+
 
     private class GetResData extends AsyncTask<String,Void,String> {
         @Override

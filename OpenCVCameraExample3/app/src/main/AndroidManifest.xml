@@ -36,7 +36,7 @@
         android:theme="@style/Theme.OpenCVCameraExample3"
         android:usesCleartextTraffic="true">
         <activity android:name=".DetailActivity"></activity>
-        <activity android:name=".Vis_CarListActivity" />
+        <activity android:name=".Vis_CarListActivity"></activity>
         <activity android:name=".CarListActivity" />
         <activity
             android:name=".MainActivity"

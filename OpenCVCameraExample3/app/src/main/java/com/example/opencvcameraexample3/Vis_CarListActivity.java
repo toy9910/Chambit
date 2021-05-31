@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.opencvcameraexample3.Adapter.CarAdapter;
+import com.example.opencvcameraexample3.Adapter.VisCarAdapter;
 import com.example.opencvcameraexample3.Class.CarData;
 
 import org.json.JSONArray;
@@ -33,17 +34,19 @@ public class Vis_CarListActivity extends AppCompatActivity {
     String errorString;
 
     ArrayList<CarData> list = new ArrayList<>();
-    CarAdapter vis_adapter;
+    VisCarAdapter vis_adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vis__car_list);
 
+
+
         RecyclerView vis_recyclerView = findViewById(R.id.vis_recycler);
         vis_recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         list.clear();
-        vis_adapter = new CarAdapter(list);
+        vis_adapter = new VisCarAdapter(list);
         vis_recyclerView.setAdapter(vis_adapter);
         vis_adapter.notifyDataSetChanged();
 
@@ -55,17 +58,20 @@ public class Vis_CarListActivity extends AppCompatActivity {
         switch (view.getId()){
             case R.id.btn_register : {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             }
 
             case R.id.btn_list:  {
                 Intent intent = new Intent(getApplicationContext(), CarListActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             }
         }
     }
+
 
     private class GetVisData extends AsyncTask<String,Void,String> {
         @Override
