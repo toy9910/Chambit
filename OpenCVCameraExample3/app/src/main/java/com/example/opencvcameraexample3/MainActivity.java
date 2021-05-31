@@ -148,6 +148,18 @@ public class MainActivity extends AppCompatActivity {
                                     Log.d(TAG, "onClick: 내부차량 번호를 입력하세요!!!!!");
                                     Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_LONG).show();
                                 }
+                                else if(name.getText().toString().equals("")) {
+                                    Log.d(TAG, "onClick: 차주를 입력하세요!!!!!");
+                                    Toast.makeText(getApplicationContext(), "차주를 입력하세요.", Toast.LENGTH_LONG).show();
+                                }
+                                else if(phone.getText().toString().equals("")) {
+                                    Log.d(TAG, "onClick: 전화 번호를 입력하세요!!!!!");
+                                    Toast.makeText(getApplicationContext(), "전화 번호를 입력하세요.", Toast.LENGTH_LONG).show();
+                                }
+                                else if(dong.getText().toString().equals("") || ho.getText().toString().equals("")) {
+                                    Log.d(TAG, "onClick: 주소를 제대로 입력하세요!!!!!");
+                                    Toast.makeText(getApplicationContext(), "주소를 제대로 입력하세요.", Toast.LENGTH_LONG).show();
+                                }
                                 else {
                                     InsertData insertData = new InsertData();
                                     insertData.execute("http://" + IP_ADDRESS + "/chambit_res_insert.php","0");
@@ -184,6 +196,18 @@ public class MainActivity extends AppCompatActivity {
                                 if(tes_result.getText().toString().equals("")) {
                                     Log.d(TAG, "onClick: 외부차량 번호를 입력하세요!!!!!");
                                     Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_LONG).show();
+                                }
+                                else if(name.getText().toString().equals("")) {
+                                    Log.d(TAG, "onClick: 차주를 입력하세요!!!!!");
+                                    Toast.makeText(getApplicationContext(), "차주를 입력하세요.", Toast.LENGTH_LONG).show();
+                                }
+                                else if(phone.getText().toString().equals("")) {
+                                    Log.d(TAG, "onClick: 전화 번호를 입력하세요!!!!!");
+                                    Toast.makeText(getApplicationContext(), "전화 번호를 입력하세요.", Toast.LENGTH_LONG).show();
+                                }
+                                else if(dong.getText().toString().equals("") || ho.getText().toString().equals("")) {
+                                    Log.d(TAG, "onClick: 주소를 제대로 입력하세요!!!!!");
+                                    Toast.makeText(getApplicationContext(), "주소를 제대로 입력하세요.", Toast.LENGTH_LONG).show();
                                 }
                                 else {
                                     InsertData insertData = new InsertData();
