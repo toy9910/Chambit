@@ -44,7 +44,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txt_inquiry_title"
+            android:id="@+id/txtCarNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp" />
@@ -74,7 +74,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txt_inquiry_content"
+            android:id="@+id/txtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp" />
@@ -102,7 +102,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textRecieptDate"
+            android:id="@+id/txtPhoneNum"
             android:layout_width="100dp"
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
@@ -132,7 +132,37 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textDesiredDate"
+            android:id="@+id/txtAddress"
+            android:layout_width="100dp"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edge_design"
+        android:orientation="horizontal"
+        android:padding="1dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/gray">
+
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:text="출차시간"
+                android:textColor="@color/blue" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textExitDate"
             android:layout_width="100dp"
             android:layout_margin="10dp"
             android:layout_height="wrap_content"

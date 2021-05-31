@@ -52,10 +52,10 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        tv_car_no = findViewById(R.id.txt_inquiry_title);
-        tv_name = findViewById(R.id.txt_inquiry_content);
-        tv_phone = findViewById(R.id.textRecieptDate);
-        tv_ho = findViewById(R.id.textDesiredDate);
+        tv_car_no = findViewById(R.id.txtCarNum);
+        tv_name = findViewById(R.id.txtName);
+        tv_phone = findViewById(R.id.txtPhoneNum);
+        tv_ho = findViewById(R.id.txtAddress);
         iv_car = findViewById(R.id.car_imageview);
 
         firebaseStorage = FirebaseStorage.getInstance();

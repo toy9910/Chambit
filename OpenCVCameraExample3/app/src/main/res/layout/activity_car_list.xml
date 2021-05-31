@@ -269,15 +269,4 @@
     </LinearLayout>
 
 
-
-    <!-- Button : 더보기 -->
-    <Button
-        android:onClick="onClick"
-        android:id="@+id/btn_more_table"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="4dp"
-        android:text="더보기" />
-
 </LinearLayout>
