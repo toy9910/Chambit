@@ -77,7 +77,7 @@ import static android.Manifest.permission.CAMERA;
 
 public class MainActivity extends AppCompatActivity {
     String TAG = "chambit";
-    String IP_ADDRESS = "3.35.105.27";
+    String IP_ADDRESS = "3.36.237.233";
     final String[] items = new String[]{"내부 차량","외부 차량"};
 
     ImageView roi_img;

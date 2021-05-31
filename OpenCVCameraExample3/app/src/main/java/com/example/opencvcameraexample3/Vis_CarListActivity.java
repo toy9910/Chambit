@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class Vis_CarListActivity extends AppCompatActivity {
     String TAG = "chambit";
-    String IP_ADDRESS = "3.35.105.27";
+    String IP_ADDRESS = "3.36.237.233";
 
     String mJsonString;
     String errorString;
@@ -39,7 +39,6 @@ public class Vis_CarListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vis__car_list);
-
 
 
         RecyclerView vis_recyclerView = findViewById(R.id.vis_recycler);

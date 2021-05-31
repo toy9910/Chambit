@@ -31,7 +31,7 @@ import java.net.URL;
 
 public class DetailActivity extends AppCompatActivity {
     String TAG = "chambit";
-    String IP_ADDRESS = "3.35.105.27";
+    String IP_ADDRESS = "3.36.237.233";
 
     String mJsonString;
     String errorString;

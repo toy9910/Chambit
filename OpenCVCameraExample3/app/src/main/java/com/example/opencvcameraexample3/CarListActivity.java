@@ -27,7 +27,7 @@ import java.util.ArrayList;
 
 public class CarListActivity extends AppCompatActivity {
     String TAG = "chambit";
-    String IP_ADDRESS = "3.35.105.27";
+    String IP_ADDRESS = "3.36.237.233";
 
     String mJsonString;
     String errorString;
@@ -56,7 +56,6 @@ public class CarListActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
-
         switch (view.getId()){
             case R.id.btn_register : {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
