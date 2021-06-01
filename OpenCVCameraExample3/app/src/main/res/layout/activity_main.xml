@@ -159,7 +159,7 @@
             </TextView>
 
             <EditText
-                android:hint="ex)101동"
+                android:hint="ex)101"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/et_dong"
@@ -174,7 +174,7 @@
             </TextView>
 
             <EditText
-                android:hint="ex)101호"
+                android:hint="ex)1002"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/et_ho"
