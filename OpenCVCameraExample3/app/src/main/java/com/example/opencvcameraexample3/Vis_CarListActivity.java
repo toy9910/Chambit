@@ -1,14 +1,17 @@
 package com.example.opencvcameraexample3;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.opencvcameraexample3.Adapter.CarAdapter;
 import com.example.opencvcameraexample3.Adapter.VisCarAdapter;
@@ -49,6 +52,31 @@ public class Vis_CarListActivity extends AppCompatActivity {
         vis_recyclerView.setAdapter(vis_adapter);
         vis_adapter.notifyDataSetChanged();
 
+        vis_adapter.setOnItemLongClickListener(new VisCarAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View v, int pos) {
+                CarData cd = list.get(pos);
+                AlertDialog.Builder builder = new AlertDialog.Builder( v.getContext() );
+                builder.setTitle("삭제");
+                builder.setMessage("삭제를 하시겠습니까?");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        list.remove(pos);
+                        DeleteVisData deleteData = new DeleteVisData();
+                        deleteData.execute("http://" + IP_ADDRESS + "/chambit_vis_delete.php",cd.getCar_no());
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.show();
+            }
+        });
+
         Vis_CarListActivity.GetVisData vTask = new Vis_CarListActivity.GetVisData();
         vTask.execute("http://"+ IP_ADDRESS + "/chambit_vis_getjson.php","");
     }
@@ -71,6 +99,70 @@ public class Vis_CarListActivity extends AppCompatActivity {
         }
     }
 
+    private class DeleteVisData extends AsyncTask<String,Void,String> {
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            Log.d(TAG, "POST response -" + s);
+
+            if(s == null) {
+                Log.e(TAG,errorString);
+            }
+            else {
+                mJsonString = s;
+                vis_adapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            String serverURL = strings[0];
+            String postParameters = "car_no=" + strings[1];
+
+            try {
+                URL url = new URL(serverURL);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "POST response code - "+ responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else {
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream,"UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                return sb.toString().trim();
+            } catch (Exception e) {
+                Log.d(TAG, "doInBackground Error : " + e);
+                errorString = e.toString();
+                return e.getMessage();
+            }
+        }
+    }
 
     private class GetVisData extends AsyncTask<String,Void,String> {
         @Override
@@ -137,13 +229,14 @@ public class Vis_CarListActivity extends AppCompatActivity {
         }
     }
 
+
+
     public void showVisResult() {
         String TAG_JSON = "chambit_dev";
         String TAG_CAR_NO = "vis_car_no";
         String TAG_NAME = "vis_name";
         String TAG_PHONE = "vis_phone";
         String TAG_HO = "vis_ho";
-        String TAG_IN = "vis_in";
         String TAG_OUT = "vis_out";
 
         try {
@@ -157,10 +250,9 @@ public class Vis_CarListActivity extends AppCompatActivity {
                 String name = item.getString(TAG_NAME);
                 String phone = item.getString(TAG_PHONE);
                 String ho = item.getString(TAG_HO);
-                String in_time = item.getString(TAG_IN);
                 String out_time = item.getString(TAG_OUT);
 
-                CarData carData = new CarData(car_no,name,phone,ho,in_time,out_time);
+                CarData carData = new CarData(car_no,name,phone,ho,out_time);
                 list.add(carData);
                 vis_adapter.notifyDataSetChanged();
             }

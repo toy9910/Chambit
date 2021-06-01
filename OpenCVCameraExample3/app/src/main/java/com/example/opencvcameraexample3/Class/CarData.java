@@ -5,7 +5,6 @@ public class CarData {
     String name;
     String phone;
     String address;
-    String in_time;
     String out_time;
 
     public CarData(String car_no, String name, String phone, String address) {
@@ -15,14 +14,15 @@ public class CarData {
         this.address = address;
     }
 
-    public CarData(String car_no, String name, String phone, String address, String in_time, String out_time) {
+    public CarData(String car_no, String name, String phone, String address, String out_time) {
         this.car_no = car_no;
         this.name = name;
         this.phone = phone;
         this.address = address;
-        this.in_time = in_time;
         this.out_time = out_time;
     }
+
+    public CarData() { }
 
     public String getCar_no() {
         return this.car_no;
@@ -39,8 +39,6 @@ public class CarData {
     public String getAddress() {
         return this.address;
     }
-
-    public String getIn_time() { return this.in_time; }
 
     public String getOut_time() { return this.out_time; }
 }

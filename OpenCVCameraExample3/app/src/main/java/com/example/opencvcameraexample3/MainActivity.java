@@ -258,8 +258,6 @@ public class MainActivity extends AppCompatActivity {
                                                 }
                                             });
                                     clsBuilder.show();
-
-
                                 }
                                 break;
                             }
