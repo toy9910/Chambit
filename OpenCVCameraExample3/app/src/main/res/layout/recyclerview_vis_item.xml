@@ -10,8 +10,66 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:background="@drawable/list_line"
         >
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="10"
+            android:background="@drawable/list_line">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tv_car_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="10"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="7"
+            android:background="@drawable/list_line">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="7"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="12"
+            android:background="@drawable/list_line">
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tv_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="12"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:background="@drawable/list_line">
+            <Button
+                android:id="@+id/btn_detail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:onClick="onClicked"
+                android:text="상세보기"
+                android:background="@drawable/btn_detail"
+                android:layout_weight="10"/>
+
+        </LinearLayout>
+        <!--
         <TextView
             android:id="@+id/tv_car_no"
             android:layout_width="0dp"
@@ -41,7 +99,7 @@
             android:background="@drawable/btn_detail"
             android:layout_weight="10"/>
 
-
+        -->
     </LinearLayout>
 
 </LinearLayout>
