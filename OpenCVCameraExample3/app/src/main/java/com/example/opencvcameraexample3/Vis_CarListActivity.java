@@ -46,7 +46,6 @@ public class Vis_CarListActivity extends AppCompatActivity {
 
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
