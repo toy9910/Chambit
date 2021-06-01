@@ -192,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:text="차량 번호"
                 android:textStyle="bold"
-                android:layout_weight="1"
+                android:layout_weight="10"
                 android:background="@drawable/table_header_design"
                 android:padding="8dp"
                 android:gravity="center"/>
@@ -201,7 +201,7 @@
                 android:layout_height="wrap_content"
                 android:text="차주"
                 android:textStyle="bold"
-                android:layout_weight="1"
+                android:layout_weight="7"
                 android:background="@drawable/table_header_design"
                 android:padding="8dp"
                 android:gravity="center"/>
@@ -210,7 +210,7 @@
                 android:layout_height="wrap_content"
                 android:text="연락처"
                 android:textStyle="bold"
-                android:layout_weight="1"
+                android:layout_weight="12"
                 android:background="@drawable/table_header_design"
                 android:padding="8dp"
                 android:gravity="center"/>
@@ -219,7 +219,7 @@
                 android:layout_height="wrap_content"
                 android:text="주소"
                 android:textStyle="bold"
-                android:layout_weight="1"
+                android:layout_weight="10"
                 android:background="@drawable/table_header_design"
                 android:padding="8dp"
                 android:gravity="center"/>
@@ -241,25 +241,25 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="10"
                     android:background="@drawable/table_column_design" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="7"
                     android:background="@drawable/table_column_design" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="12"
                     android:background="@drawable/table_column_design" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="10"
                     android:background="@drawable/table_column_design" />
 
             </LinearLayout>

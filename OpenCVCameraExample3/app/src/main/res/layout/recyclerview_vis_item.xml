@@ -10,19 +10,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_weight="1"/>
+        android:layout_weight="10"/>
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_weight="1"/>
+        android:layout_weight="7"/>
     <TextView
         android:id="@+id/tv_phone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_weight="1"/>
+        android:layout_weight="12"/>
 
     <Button
         android:id="@+id/btn_detail"
@@ -32,7 +32,7 @@
         android:onClick="onClicked"
         android:text="상세보기"
         android:background="@drawable/btn_detail"
-        android:layout_weight="1"/>
+        android:layout_weight="10"/>
 
 
 </LinearLayout>
