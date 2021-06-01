@@ -14,4 +14,9 @@
     <color name="blue">#1C47AF</color>
     <color name="backgroundBlue">#B5D3ED</color>
     <color name="gray">#E2E2E2</color>
+
+    <color name="yellow">#FFE400</color>
+    <color name="orange">#FFAB00</color>
+    <color name="back_yellow">#FAF4C0</color>
+
 </resources>

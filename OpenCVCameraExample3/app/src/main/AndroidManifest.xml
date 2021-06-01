@@ -35,8 +35,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OpenCVCameraExample3"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DetailActivity"></activity>
-        <activity android:name=".Vis_CarListActivity"></activity>
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".DetailActivity" />
+        <activity android:name=".Vis_CarListActivity" />
         <activity android:name=".CarListActivity" />
         <activity
             android:name=".MainActivity"

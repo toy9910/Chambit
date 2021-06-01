@@ -444,10 +444,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent,0);
                 break;
             }
-            case R.id.btn_car_search: {
-
-                break;
-            }
         }
     }
 

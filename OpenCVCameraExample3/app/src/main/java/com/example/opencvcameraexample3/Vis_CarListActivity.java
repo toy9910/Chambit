@@ -142,6 +142,9 @@ public class Vis_CarListActivity extends AppCompatActivity {
         String TAG_CAR_NO = "vis_car_no";
         String TAG_NAME = "vis_name";
         String TAG_PHONE = "vis_phone";
+        String TAG_HO = "vis_ho";
+        String TAG_IN = "vis_in";
+        String TAG_OUT = "vis_out";
 
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
@@ -153,8 +156,11 @@ public class Vis_CarListActivity extends AppCompatActivity {
                 String car_no = item.getString(TAG_CAR_NO);
                 String name = item.getString(TAG_NAME);
                 String phone = item.getString(TAG_PHONE);
+                String ho = item.getString(TAG_HO);
+                String in_time = item.getString(TAG_IN);
+                String out_time = item.getString(TAG_OUT);
 
-                CarData carData = new CarData(car_no,name,phone,"");
+                CarData carData = new CarData(car_no,name,phone,ho,in_time,out_time);
                 list.add(carData);
                 vis_adapter.notifyDataSetChanged();
             }

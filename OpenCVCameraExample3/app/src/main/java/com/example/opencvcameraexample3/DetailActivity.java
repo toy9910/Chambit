@@ -56,6 +56,7 @@ public class DetailActivity extends AppCompatActivity {
         tv_name = findViewById(R.id.txtName);
         tv_phone = findViewById(R.id.txtPhoneNum);
         tv_ho = findViewById(R.id.txtAddress);
+        tv_out = findViewById(R.id.textExitDate);
         iv_car = findViewById(R.id.car_imageview);
 
         firebaseStorage = FirebaseStorage.getInstance();
@@ -159,6 +160,7 @@ public class DetailActivity extends AppCompatActivity {
                 tv_name.setText(name);
                 tv_phone.setText(phone);
                 tv_ho.setText(ho);
+                tv_out.setText(out);
 
 
                 // 파이어베이스에서 이미지 다운로드

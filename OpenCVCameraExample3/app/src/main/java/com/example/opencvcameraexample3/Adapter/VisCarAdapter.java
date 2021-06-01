@@ -2,6 +2,7 @@ package com.example.opencvcameraexample3.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,10 @@ import com.example.opencvcameraexample3.Class.CarData;
 import com.example.opencvcameraexample3.DetailActivity;
 import com.example.opencvcameraexample3.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class VisCarAdapter extends RecyclerView.Adapter<VisCarAdapter.ViewHolder> {
     private ArrayList<CarData> arrayList = null;
@@ -44,6 +48,23 @@ public class VisCarAdapter extends RecyclerView.Adapter<VisCarAdapter.ViewHolder
         holder.car_no.setText(cd.getCar_no());
         holder.name.setText(cd.getName());
         holder.phone.setText(cd.getPhone());
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        try {
+            String current_time = format.format(System.currentTimeMillis());
+
+            Date date_cur = format.parse(current_time);
+            Date date_out = format.parse(cd.getOut_time());
+
+            if(date_cur.after(date_out)) {
+                holder.car_no.setTextColor(Color.parseColor("#FFAB00"));
+                holder.name.setTextColor(Color.parseColor("#FFAB00"));
+                holder.phone.setTextColor(Color.parseColor("#FFAB00"));
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         holder.btn_detail.setOnClickListener(new View.OnClickListener() {
             @Override

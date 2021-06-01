@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="등록"
-            android:textColor="@color/blue"
+            android:background="@drawable/btn_design2"
+            android:textColor="@color/black"
             android:layout_alignParentLeft="true" />
 
         <!-- TextView: 목록 -->
@@ -34,7 +35,9 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="내부차량"
-            android:textColor="@color/blue"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/btn_design2"
+            android:textColor="@color/black"
             android:layout_alignParentLeft="true" />
 
     </LinearLayout>
@@ -157,7 +160,7 @@
                 android:layout_width="115dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:background="@color/backgroundBlue"
+                android:background="@drawable/btn_design1"
                 android:padding="0dp"
                 android:text="검색"
                 android:textStyle="bold"

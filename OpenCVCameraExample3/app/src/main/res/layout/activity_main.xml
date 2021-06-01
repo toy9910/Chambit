@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/yellow"
+    android:padding="10dp"
     android:weightSum="100"
     tools:context=".MainActivity">
 
@@ -12,7 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        android:layout_weight="50">
+        android:layout_weight="50"
+        android:background="@drawable/main_image_back">
 
         <ImageView
             android:layout_width="match_parent"
@@ -30,6 +33,7 @@
         android:orientation="horizontal"
         android:layout_weight="10"
         android:gravity="center"
+        android:background="@color/white"
         android:weightSum="2">
 
         <Button
@@ -39,7 +43,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/btn_design1"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:text="초기화">
         </Button>
         <Button
@@ -51,42 +55,13 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/btn_design1"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:text="번호판 인식">
         </Button>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="10"
-        android:gravity="center"
-        android:weightSum="3">
 
-        <EditText
-            android:id="@+id/tess_result"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp">
-        </EditText>
-        <Button
-            android:id="@+id/btn_car_search"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="차량 검색"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/btn_design1"
-            android:textColor="@color/white">
-        </Button>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -99,6 +74,31 @@
             android:layout_height="0dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@color/white"
+            android:layout_weight="5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="차량 번호 : "
+                android:textSize="20sp"
+                android:layout_marginLeft="10dp">
+            </TextView>
+
+            <EditText
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:id="@+id/tess_result"
+                android:background="@null"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/white"
             android:layout_weight="5">
 
             <TextView
@@ -122,6 +122,7 @@
             android:layout_height="0dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
+            android:background="@color/white"
             android:layout_weight="5">
 
             <TextView
@@ -144,6 +145,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
+            android:background="@color/white"
             android:layout_weight="5">
 
             <TextView
@@ -185,6 +187,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="horizontal"
+        android:background="@color/white"
         android:layout_weight="15">
 
         <Button
@@ -195,7 +198,7 @@
             android:layout_margin="15dp"
             android:text="차량 등록"
             android:background="@drawable/btn_design1"
-            android:textColor="@color/white">
+            android:textColor="@color/black">
         </Button>
         <Button
             android:id="@+id/btn_car_list"
@@ -205,7 +208,7 @@
             android:layout_margin="15dp"
             android:text="차량 목록 조회"
             android:background="@drawable/btn_design1"
-            android:textColor="@color/white">
+            android:textColor="@color/black">
         </Button>
 
     </LinearLayout>
