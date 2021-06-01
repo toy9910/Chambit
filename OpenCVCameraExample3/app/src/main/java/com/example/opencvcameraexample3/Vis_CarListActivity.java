@@ -35,7 +35,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Vis_CarListActivity extends AppCompatActivity {
-    String TAG = "chambit";
+    String TAG = "chambi";
     String IP_ADDRESS = "3.36.237.233";
 
     String mJsonString;
