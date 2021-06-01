@@ -1,5 +1,6 @@
 package com.example.opencvcameraexample3;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +17,10 @@ import android.widget.Toast;
 import com.example.opencvcameraexample3.Adapter.CarAdapter;
 import com.example.opencvcameraexample3.Adapter.VisCarAdapter;
 import com.example.opencvcameraexample3.Class.CarData;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,10 +43,17 @@ public class Vis_CarListActivity extends AppCompatActivity {
 
     ArrayList<CarData> list = new ArrayList<>();
     VisCarAdapter vis_adapter;
+
+    FirebaseStorage firebaseStorage;
+    StorageReference storageReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vis__car_list);
+
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReferenceFromUrl("gs://chambit-da2c6.appspot.com");
 
 
         RecyclerView vis_recyclerView = findViewById(R.id.vis_recycler);
@@ -65,6 +77,19 @@ public class Vis_CarListActivity extends AppCompatActivity {
                         list.remove(pos);
                         DeleteVisData deleteData = new DeleteVisData();
                         deleteData.execute("http://" + IP_ADDRESS + "/chambit_vis_delete.php",cd.getCar_no());
+
+                        StorageReference rivRef = storageReference.child("car_img/"+ cd.getPhone() + ".png");
+                        rivRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "onSuccess: 이미지 삭제 완료");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "onSuccess: 이미지 삭제 실패");
+                            }
+                        });
                     }
                 });
                 builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
