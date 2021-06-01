@@ -67,7 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="15">
+        android:layout_weight="25">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -110,10 +110,11 @@
             </TextView>
 
             <EditText
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
+                android:hint="ex)홍길동"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/et_name"
-                android:background="@null"/>
+                android:backgroundTint="@color/yellow"/>
 
         </LinearLayout>
 
@@ -137,7 +138,8 @@
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:id="@+id/et_phone"
-                android:background="@null"/>
+                android:hint="ex)01012345678"
+                android:backgroundTint="@color/yellow"/>
 
         </LinearLayout>
 
@@ -157,10 +159,11 @@
             </TextView>
 
             <EditText
-                android:layout_width="60dp"
+                android:hint="ex)101동"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/et_dong"
-                android:background="@null"/>
+                android:backgroundTint="@color/yellow"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -171,10 +174,11 @@
             </TextView>
 
             <EditText
-                android:layout_width="60dp"
+                android:hint="ex)101호"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/et_ho"
-                android:background="@null"/>
+                android:backgroundTint="@color/yellow"/>
 
         </LinearLayout>
 
