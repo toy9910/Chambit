@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,6 +86,10 @@ public class VisCarAdapter extends RecyclerView.Adapter<VisCarAdapter.ViewHolder
                 holder.car_no.setTextColor(Color.parseColor("#FFAB00"));
                 holder.name.setTextColor(Color.parseColor("#FFAB00"));
                 holder.phone.setTextColor(Color.parseColor("#FFAB00"));
+
+                holder.car_no.setTypeface(holder.car_no.getTypeface(), Typeface.BOLD);
+                holder.name.setTypeface(holder.car_no.getTypeface(), Typeface.BOLD);
+                holder.phone.setTypeface(holder.car_no.getTypeface(), Typeface.BOLD);
             }
 
         } catch (ParseException e) {
