@@ -146,19 +146,23 @@ public class MainActivity extends AppCompatActivity {
                             case 0: { // 내부차량 등록
                                 if(tes_result.getText().toString().equals("")) {
                                     Log.d(TAG, "onClick: 내부차량 번호를 입력하세요!!!!!");
-                                    Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_SHORT).show();
                                 }
                                 else if(name.getText().toString().equals("")) {
                                     Log.d(TAG, "onClick: 차주를 입력하세요!!!!!");
-                                    Toast.makeText(getApplicationContext(), "차주를 입력하세요.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "차주를 입력하세요.", Toast.LENGTH_SHORT).show();
                                 }
                                 else if(phone.getText().toString().equals("")) {
                                     Log.d(TAG, "onClick: 전화 번호를 입력하세요!!!!!");
-                                    Toast.makeText(getApplicationContext(), "전화 번호를 입력하세요.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "전화 번호를 입력하세요.", Toast.LENGTH_SHORT).show();
                                 }
                                 else if(dong.getText().toString().equals("") || ho.getText().toString().equals("")) {
                                     Log.d(TAG, "onClick: 주소를 제대로 입력하세요!!!!!");
-                                    Toast.makeText(getApplicationContext(), "주소를 제대로 입력하세요.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "주소를 제대로 입력하세요.", Toast.LENGTH_SHORT).show();
+                                }
+                                else if(roi_img.getDrawable() == null) {
+                                    Log.d(TAG, "onClick: 차량 사진이 없습니다!!!!!");
+                                    Toast.makeText(getApplicationContext(), "차량을 찍어주세요.", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
                                     InsertData insertData = new InsertData();
@@ -196,19 +200,23 @@ public class MainActivity extends AppCompatActivity {
                             case 1: { // 외부차량 등록
                                 if(tes_result.getText().toString().equals("")) {
                                     Log.d(TAG, "onClick: 외부차량 번호를 입력하세요!!!!!");
-                                    Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "차량 번호를 입력하세요.", Toast.LENGTH_SHORT).show();
                                 }
                                 else if(name.getText().toString().equals("")) {
                                     Log.d(TAG, "onClick: 차주를 입력하세요!!!!!");
-                                    Toast.makeText(getApplicationContext(), "차주를 입력하세요.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "차주를 입력하세요.", Toast.LENGTH_SHORT).show();
                                 }
                                 else if(phone.getText().toString().equals("")) {
                                     Log.d(TAG, "onClick: 전화 번호를 입력하세요!!!!!");
-                                    Toast.makeText(getApplicationContext(), "전화 번호를 입력하세요.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "전화 번호를 입력하세요.", Toast.LENGTH_SHORT).show();
                                 }
                                 else if(dong.getText().toString().equals("") || ho.getText().toString().equals("")) {
                                     Log.d(TAG, "onClick: 주소를 제대로 입력하세요!!!!!");
-                                    Toast.makeText(getApplicationContext(), "주소를 제대로 입력하세요.", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "주소를 제대로 입력하세요.", Toast.LENGTH_SHORT).show();
+                                }
+                                else if(roi_img.getDrawable() == null) {
+                                    Log.d(TAG, "onClick: 차량 사진이 없습니다!!!!!");
+                                    Toast.makeText(getApplicationContext(), "차량을 찍어주세요.", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
                                     final EditText txtEdit = new EditText( MainActivity.this );
@@ -471,7 +479,7 @@ public class MainActivity extends AppCompatActivity {
                 imgFile = new File(storage,title+".png");
 
 
-                //new AsyncTess().execute(image);
+                new AsyncTess().execute(image);
             }
         }
     }

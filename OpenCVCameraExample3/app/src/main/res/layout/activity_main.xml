@@ -138,6 +138,7 @@
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:id="@+id/et_phone"
+                android:inputType="number"
                 android:hint="ex)01012345678"
                 android:backgroundTint="@color/yellow"/>
 
@@ -163,6 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/et_dong"
+                android:inputType="number"
                 android:backgroundTint="@color/yellow"/>
 
             <TextView
@@ -177,6 +179,7 @@
                 android:hint="ex)1002"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:inputType="number"
                 android:id="@+id/et_ho"
                 android:backgroundTint="@color/yellow"/>
 
