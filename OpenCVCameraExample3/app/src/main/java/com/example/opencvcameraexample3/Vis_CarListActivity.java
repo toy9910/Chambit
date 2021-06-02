@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.opencvcameraexample3.Adapter.CarAdapter;
@@ -41,6 +42,11 @@ public class Vis_CarListActivity extends AppCompatActivity {
     String mJsonString;
     String errorString;
 
+    EditText editCarNum;
+    EditText editName;
+    EditText editPhoneNum;
+
+    ArrayList<CarData> listCar = new ArrayList<>();
     ArrayList<CarData> list = new ArrayList<>();
     VisCarAdapter vis_adapter;
 
@@ -50,6 +56,10 @@ public class Vis_CarListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vis__car_list);
+
+        editCarNum= findViewById(R.id.edit_search_carNum);
+        editName = findViewById(R.id.edit_search_name);
+        editPhoneNum = findViewById(R.id.edit_search_phone);
 
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReferenceFromUrl("gs://chambit-da2c6.appspot.com");
@@ -118,6 +128,10 @@ public class Vis_CarListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CarListActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                break;
+            }
+            case R.id.btn_search:{
+                searchCarData();
                 break;
             }
         }
@@ -278,10 +292,87 @@ public class Vis_CarListActivity extends AppCompatActivity {
 
                 CarData carData = new CarData(car_no,name,phone,ho,out_time);
                 list.add(carData);
-                vis_adapter.notifyDataSetChanged();
             }
+            listCar.addAll(list);
+            vis_adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             Log.d(TAG, "showResult: "+e);
         }
+    }
+
+    public void searchCarData(){
+        String carNum = editCarNum.getText().toString();
+        String name = editName.getText().toString();
+        String phoneNum = editPhoneNum.getText().toString();
+
+        list.clear();
+        list.addAll(filterCarData(carNum,name,phoneNum));
+        vis_adapter.notifyDataSetChanged();
+
+    }
+
+    public ArrayList<CarData> filterCarData(String carNum,String name, String phoneNum){
+        ArrayList<CarData> listResult = new ArrayList<>();
+
+        if(carNum.length()==0){
+            if(name.length()==0){
+                if(phoneNum.length()==0){
+                    listResult.addAll(listCar);
+                }else{
+                    for(int i=0; i<listCar.size()-1;i++) {
+                        if(listCar.get(i).getPhone().toLowerCase().contains(phoneNum)){
+                            listResult.add(listCar.get(i));
+                        }
+                    }
+
+                }
+            }else{
+                if(phoneNum.length()==0){
+                    for(int i=0; i<listCar.size()-1;i++) {
+                        if(listCar.get(i).getName().toLowerCase().contains(name)){
+                            listResult.add(listCar.get(i));
+                        }
+                    }
+                }else{
+                    for(int i=0; i<listCar.size()-1;i++) {
+                        if(listCar.get(i).getName().toLowerCase().contains(name)&&listCar.get(i).getPhone().toLowerCase().contains(phoneNum)){
+                            listResult.add(listCar.get(i));
+                        }
+                    }
+                }
+            }
+        }else{
+            if(name.length()==0){
+                if(phoneNum.length()==0){
+                    for(int i=0; i<listCar.size()-1;i++) {
+                        if(listCar.get(i).getCar_no().toLowerCase().contains(carNum)){
+                            listResult.add(listCar.get(i));
+                        }
+                    }
+                }else{
+                    for(int i=0; i<listCar.size()-1;i++) {
+                        if(listCar.get(i).getCar_no().toLowerCase().contains(carNum)&&listCar.get(i).getPhone().toLowerCase().contains(phoneNum)){
+                            listResult.add(listCar.get(i));
+                        }
+                    }
+                }
+            }else{
+                if(phoneNum.length()==0){
+                    for(int i=0; i<listCar.size()-1;i++) {
+                        if(listCar.get(i).getCar_no().toLowerCase().contains(carNum)&&listCar.get(i).getName().toLowerCase().contains(name)){
+                            listResult.add(listCar.get(i));
+                        }
+                    }
+                }else{
+                    for(int i=0; i<listCar.size()-1;i++) {
+                        if(listCar.get(i).getCar_no().toLowerCase().contains(carNum)&&listCar.get(i).getName().toLowerCase().contains(name)&&listCar.get(i).getPhone().toLowerCase().contains(phoneNum)){
+                            listResult.add(listCar.get(i));
+                        }
+                    }
+                }
+            }
+        }
+
+        return listResult;
     }
 }
