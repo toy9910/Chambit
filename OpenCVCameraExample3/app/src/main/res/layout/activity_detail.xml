@@ -164,7 +164,7 @@
 
         <TextView
             android:id="@+id/textExitDate"
-            android:layout_width="100dp"
+            android:layout_width="180dp"
             android:layout_margin="10dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" />
