@@ -42,9 +42,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity" />
-        <activity android:name=".Vis_CarListActivity" />
-        <activity android:name=".CarListActivity" />
+        <activity android:name=".DetailActivity"/>
+        <activity android:name=".Vis_CarListActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
+        <activity android:name=".CarListActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
