@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btn_car_list;
     Button btn_register;
+    Button btn_reset;
     int selected = -1;
 
     FirebaseStorage firebaseStorage;
@@ -123,11 +124,24 @@ public class MainActivity extends AppCompatActivity {
         ho = findViewById(R.id.et_ho);
         btn_car_list = findViewById(R.id.btn_car_list);
         btn_register = findViewById(R.id.btn_register);
+        btn_reset = findViewById(R.id.btn_reset);
 
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReferenceFromUrl("gs://chambit-da2c6.appspot.com");
 
         checkPermission();
+
+        setButtons();
+        setKeyboard();
+    }
+
+    void setButtons() {
+        btn_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetValues();
+            }
+        });
 
         // 입주자 차량 등록 버튼
         btn_register.setOnClickListener(new View.OnClickListener() {
@@ -136,13 +150,13 @@ public class MainActivity extends AppCompatActivity {
                 // 차량 선택 다이얼로그 생성
                 new AlertDialog.Builder(MainActivity.this).setTitle("선택")
                         .setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.d(TAG, "onClick: "+items[which]);
-                        selected = which;
-                        Toast.makeText(getApplicationContext(),items[which],Toast.LENGTH_SHORT).show();
-                    }
-                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d(TAG, "onClick: "+items[which]);
+                                selected = which;
+                                Toast.makeText(getApplicationContext(),items[which],Toast.LENGTH_SHORT).show();
+                            }
+                        }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (selected) {
@@ -196,13 +210,7 @@ public class MainActivity extends AppCompatActivity {
                                             Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
                                         }
                                     });
-
-                                    tes_result.setText("");
-                                    name.setText("");
-                                    phone.setText("");
-                                    dong.setText("");
-                                    ho.setText("");
-                                    roi_img.setImageBitmap(null);
+                                    resetValues();
                                 }
                                 break;
                             }
@@ -259,13 +267,7 @@ public class MainActivity extends AppCompatActivity {
                                                     Toast.makeText(getApplicationContext(),"이미지 업로드 완료.",Toast.LENGTH_SHORT).show();
                                                 }
                                             });
-
-                                            tes_result.setText("");
-                                            name.setText("");
-                                            phone.setText("");
-                                            dong.setText("");
-                                            ho.setText("");
-                                            roi_img.setImageBitmap(null);
+                                            resetValues();
                                         }
                                     });
                                     clsBuilder.setNegativeButton("취소",
@@ -308,7 +310,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        setKeyboard();
+    }
+
+    void resetValues() {
+        tes_result.setText("");
+        name.setText("");
+        phone.setText("");
+        dong.setText("");
+        ho.setText("");
+        roi_img.setImageBitmap(null);
     }
 
     void setKeyboard() {
