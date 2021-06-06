@@ -89,7 +89,9 @@
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:id="@+id/tess_result"
-                android:background="@null"/>
+                android:background="@null"
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
 
         </LinearLayout>
 
@@ -114,7 +116,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/et_name"
-                android:backgroundTint="@color/yellow"/>
+                android:backgroundTint="@color/yellow"
+                android:inputType="text"
+                android:imeOptions="actionDone"/>
 
         </LinearLayout>
 
@@ -140,7 +144,8 @@
                 android:id="@+id/et_phone"
                 android:inputType="number"
                 android:hint="ex)01012345678"
-                android:backgroundTint="@color/yellow"/>
+                android:backgroundTint="@color/yellow"
+                android:imeOptions="actionDone"/>
 
         </LinearLayout>
 
@@ -165,7 +170,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/et_dong"
                 android:inputType="number"
-                android:backgroundTint="@color/yellow"/>
+                android:backgroundTint="@color/yellow"
+                android:imeOptions="actionDone"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,7 +187,8 @@
                 android:layout_height="match_parent"
                 android:inputType="number"
                 android:id="@+id/et_ho"
-                android:backgroundTint="@color/yellow"/>
+                android:backgroundTint="@color/yellow"
+                android:imeOptions="actionDone"/>
 
         </LinearLayout>
 

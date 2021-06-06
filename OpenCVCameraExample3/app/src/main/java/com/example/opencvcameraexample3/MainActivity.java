@@ -25,9 +25,12 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -172,11 +175,17 @@ public class MainActivity extends AppCompatActivity {
                                     // 파이어베이스에 업로드
                                     Uri uri = Uri.fromFile(imgFile);
 
-                                    StringBuffer stringBuffer = new StringBuffer();
-                                    stringBuffer.append(phone.getText().toString());
-                                    stringBuffer.insert(3,"-");
-                                    stringBuffer.insert(8,"-");
-                                    String imgTitle = stringBuffer.toString();
+                                    String imgTitle;
+                                    if(phone.getText().toString().length() > 11) {
+                                        StringBuffer stringBuffer = new StringBuffer();
+                                        stringBuffer.append(phone.getText().toString());
+                                        stringBuffer.insert(3,"-");
+                                        stringBuffer.insert(8,"-");
+                                        imgTitle = stringBuffer.toString();
+                                    }
+                                    else {
+                                        imgTitle = phone.getText().toString();
+                                    }
                                     StorageReference rivRef = storageReference.child("car_img/"+ imgTitle + ".png");
                                     UploadTask uploadTask1 = rivRef.putFile(uri);
                                     Log.d(TAG, "onActivityResult: "+storageReference.toString());
@@ -297,6 +306,65 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).setNeutralButton("닫기", null).setPositiveButton("확인", null).show();
 
+            }
+        });
+        setKeyboard();
+    }
+
+    void setKeyboard() {
+        tes_result.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tes_result.getWindowToken(),0);
+                    return true;
+                }
+                return false;
+            }
+        });
+        name.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tes_result.getWindowToken(),0);
+                    return true;
+                }
+                return false;
+            }
+        });
+        phone.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tes_result.getWindowToken(),0);
+                    return true;
+                }
+                return false;
+            }
+        });
+        dong.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tes_result.getWindowToken(),0);
+                    return true;
+                }
+                return false;
+            }
+        });
+        ho.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
+                    InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(tes_result.getWindowToken(),0);
+                    return true;
+                }
+                return false;
             }
         });
     }

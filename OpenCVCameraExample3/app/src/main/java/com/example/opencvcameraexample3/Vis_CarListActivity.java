@@ -84,6 +84,7 @@ public class Vis_CarListActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         list.remove(pos);
+                        vis_adapter.notifyItemRemoved(pos);
                         DeleteVisData deleteData = new DeleteVisData();
                         deleteData.execute("http://" + IP_ADDRESS + "/chambit_vis_delete.php",cd.getCar_no());
 

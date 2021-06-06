@@ -6,8 +6,8 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="16"
-8-->C:\github\Chambit\OpenCVCameraExample3\sdk\java\AndroidManifest.xml
+8-->C:\github\Chambit3333\OpenCVCameraExample3\sdk\java\AndroidManifest.xml
 9        android:targetSdkVersion="26" />
-9-->C:\github\Chambit\OpenCVCameraExample3\sdk\java\AndroidManifest.xml
+9-->C:\github\Chambit3333\OpenCVCameraExample3\sdk\java\AndroidManifest.xml
 10
 11</manifest>
