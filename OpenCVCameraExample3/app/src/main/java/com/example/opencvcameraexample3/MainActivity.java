@@ -34,6 +34,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -236,15 +237,26 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "차량을 찍어주세요.", Toast.LENGTH_SHORT).show();
                                 }
                                 else {
-                                    final EditText txtEdit = new EditText( MainActivity.this );
-
-                                    AlertDialog.Builder clsBuilder = new AlertDialog.Builder( MainActivity.this );
-                                    clsBuilder.setTitle( "출차 예상 시간" );
-                                    clsBuilder.setView( txtEdit );
-                                    clsBuilder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                    LinearLayout dialogView = (LinearLayout) View.inflate(MainActivity.this, R.layout.dialog, null);
+                                    AlertDialog.Builder dlg = new AlertDialog.Builder(MainActivity.this);
+                                    dlg.setTitle("출차 예정 시간 입력");
+                                    dlg.setView(dialogView);
+                                    dlg.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            String strText = txtEdit.getText().toString();
+                                            EditText edityear = dialogView.findViewById(R.id.editYear);
+                                            EditText editmonth = dialogView.findViewById(R.id.editMonth);
+                                            EditText editday = dialogView.findViewById(R.id.editDay);
+                                            EditText edithour = dialogView.findViewById(R.id.editHour);
+                                            EditText editminute = dialogView.findViewById(R.id.editMinute);
+
+                                            int year = Integer.parseInt(edityear.getText().toString());
+                                            int month = Integer.parseInt(editmonth.getText().toString());
+                                            int day = Integer.parseInt(editday.getText().toString());
+                                            int hour = Integer.parseInt(edithour.getText().toString());
+                                            int minute = Integer.parseInt(editminute.getText().toString());
+
+                                            String strText = dateSet(year, month, day, hour, minute);
 
                                             InsertData insertData = new InsertData();
                                             insertData.execute("http://" + IP_ADDRESS + "/chambit_vis_insert.php","1",strText);
@@ -270,14 +282,12 @@ public class MainActivity extends AppCompatActivity {
                                             resetValues();
                                         }
                                     });
-                                    clsBuilder.setNegativeButton("취소",
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog, int which) {
 
-                                                }
-                                            });
-                                    clsBuilder.show();
+                                    dlg.setNegativeButton("취소", null);
+                                    dlg.show();
                                 }
+
+
                                 break;
                             }
                         }
@@ -577,6 +587,38 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(permission_list,0);
             }
         }
+    }
+
+
+
+    public String dateSet(int year, int month, int day, int hour, int minute){
+        String strMonth;
+        String strDay;
+        String strHour;
+        String strMinute;
+
+        if(month<10)
+            strMonth = "0" + month;
+        else
+            strMonth = month +"";
+
+        if(day<10)
+            strDay = "0" + day;
+        else
+            strDay = day +"";
+
+        if(hour<10)
+            strHour = "0" + hour;
+        else
+            strHour = hour +"";
+
+        if(minute<10)
+            strMinute = "0" + minute;
+        else
+            strMinute = minute +"";
+
+        return year +"-"+strMonth +"-"+strDay + " " + strHour + ":"+strMinute+":00";
+
     }
 
     @Override
